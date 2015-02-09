@@ -17,6 +17,10 @@ protected:
   JoypadHandler joypadHandler;
 };
 
-TEST_F(JoypadHandlerTestSuite, no_test)
+TEST_F(JoypadHandlerTestSuite, shouldClickLeftMouseButton_whenLBisPressed)
 {
+  EXPECT_CALL(sysConteollerMock, clickMouse(1));
+  EXPECT_CALL(sysConteollerMock, unclickMouse(1));
+
+  joypadHandler.handleButton(BUTTON_LB, PRESSED);
 }

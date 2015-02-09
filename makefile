@@ -33,6 +33,7 @@ clean:
 all: GamepadController test
 
 test: JoypadHandlerTest
+	./JoypadHandlerTest
 
 JoypadHandlerTest: $(TestObjs)
 	g++ -o $@ $(INCPATH) $^ $(LIBS)  -pthread

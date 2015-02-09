@@ -25,3 +25,12 @@ TEST_F(JoypadHandlerTestSuite, shouldClickLeftMouseButton_whenLBisPressed)
   EXPECT_CALL(sysConteollerMock, unclickMouse(1));
   joypadHandler.handleButton(BUTTON_LB, RELEASED);
 }
+
+TEST_F(JoypadHandlerTestSuite, shouldClickRightMouseButton_whenRBisPressed)
+{
+  EXPECT_CALL(sysConteollerMock, clickMouse(3));
+  joypadHandler.handleButton(BUTTON_RB, PRESSED);
+
+  EXPECT_CALL(sysConteollerMock, unclickMouse(3));
+  joypadHandler.handleButton(BUTTON_RB, RELEASED);
+}

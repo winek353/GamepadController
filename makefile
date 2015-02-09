@@ -13,10 +13,12 @@ Objs+=Obj/SystemController.o
 
 TestObjs+=Obj/tests.o
 TestObjs+=Obj/JoypadHandler.o
+TestObjs+=Obj/JoypadAxis.o
+TestObjs+=Obj/JoypadButton.o
+TestObjs+=Obj/PressedOrReleased.o
 TestObjs+=Gtest/gtest-all.o
 TestObjs+=Gtest/gtest_main.o
 TestObjs+=Gtest/gmock-all.o
-#TestObjs+=Gtest/gmock_main.o
 
 Obj/%.o: Source/%.cpp
 	g++ -o $@ $(INCPATH) -c $^

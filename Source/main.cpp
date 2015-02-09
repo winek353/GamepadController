@@ -11,7 +11,5 @@ int main(int argc, char* argv[])
     
   JoypadListener listener;
   a.exec();
-  
-  //while(true);
 }
 

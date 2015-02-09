@@ -4,6 +4,7 @@
 
 class SystemControllerMock : public ISystemController
 {
+public:
   MOCK_METHOD1(pressKey, void(int));
   MOCK_METHOD1(releaseKey, void(int));
   MOCK_METHOD2(moveMouse, void(int, int));

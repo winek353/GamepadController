@@ -19,6 +19,13 @@ void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedO
 	else
 		systemController->unclickMouse(1);
   }
+    if(button == BUTTON_RB)
+  {
+	if(pressedOrReleased == PRESSED)
+		systemController->clickMouse(3);
+	else
+		systemController->unclickMouse(3);
+  }
   
   // Here implement handling of button events ;)
 }

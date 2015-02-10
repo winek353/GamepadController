@@ -13,5 +13,6 @@ public:
   void handleTime();
 
 private:
+  int mouseSpeedX, mouseSpeedY;
   ISystemController* systemController;
 };

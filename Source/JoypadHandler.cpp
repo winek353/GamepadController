@@ -6,6 +6,8 @@ using namespace std;
 JoypadHandler::JoypadHandler(ISystemController* p_systemController) :
   systemController(p_systemController)
 {
+	mouseSpeedX = 0;
+	mouseSpeedY = 0;
 }
 
 void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased)
@@ -33,11 +35,17 @@ void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedO
 void JoypadHandler::handleAxis(JoypadAxis axis, int value)
 {
   //cout << "Axis " << axis << " value = " << value << endl;
-  // Here implement handling of axis events ;)
+  if(axis==AXIS_RIGHT_HORIZONTAL)
+	{
+		mouseSpeedX = - value / 2048;
+	}
+  else if(axis == AXIS_RIGHT_VERTICAL)
+	{
+		mouseSpeedY = value / 2048;
+	}
 }
 
-void JoypadHandler::handleTime() // once a 1/100 s
+void JoypadHandler::handleTime() // once a 1/20 s
 {
-  //cout << "Time event!" << endl;
-  // Here implement handling of time event ;)
+	systemController->moveMouse(mouseSpeedX, mouseSpeedY);
 }

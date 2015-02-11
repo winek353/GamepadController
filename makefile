@@ -20,14 +20,17 @@ TestObjs+=Gtest/gtest-all.o
 TestObjs+=Gtest/gtest_main.o
 TestObjs+=Gtest/gmock-all.o
 
-Obj/%.o: Source/%.cpp
-	g++ -o $@ $(INCPATH) -c $^
+Obj/%.o: Source/%.cpp Include/JoypadHandler.hpp
+	@g++ -o $@ $(INCPATH) -c $<
+	@echo "  CXX  " $@
 
 Obj/%.o: GeneratedSource/%.cpp
-	g++ -o $@ $(INCPATH) -c $^
+	@g++ -o $@ $(INCPATH) -c $^
+	@echo "  CXX  " $@
 
 Obj/%.o: Test/%.cpp
-	g++ -o $@ $(INCPATH) -c $^
+	@g++ -o $@ $(INCPATH) -c $^
+	@echo "  CXX  " $@
 
 clean:
 	rm -f GamepadController Obj/*.o
@@ -38,7 +41,8 @@ test: JoypadHandlerTest
 	./JoypadHandlerTest
 
 JoypadHandlerTest: $(TestObjs)
-	g++ -o $@ $(INCPATH) $^ $(LIBS)  -pthread
+	@g++ -o $@ $(INCPATH) $^ $(LIBS)  -pthread
+	@echo "  LD  " $@
 
 GeneratedSource/QtJoypadListener.cpp: Include/JoypadListener.hpp
 	/usr/lib/x86_64-linux-gnu/qt4/bin/moc $(INCPATH) $^ -o $@

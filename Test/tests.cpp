@@ -2,6 +2,7 @@
 #include "SystemControllerMock.hpp"
 #include "JoypadHandler.hpp"
 
+
 using namespace testing;
 
 class JoypadHandlerTestSuite : public Test

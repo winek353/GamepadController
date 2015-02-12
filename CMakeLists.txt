@@ -18,8 +18,8 @@ file(GLOB Gtest "Gtest/gtest-all.o"
 				"Gtest/gtest_main.o"
 				"Gtest/gmock-all.o")
 
-add_executable(JoypadHandlerTest, ${GeneratedSources}
-                                  ${TestSources}
+add_executable(JoypadHandlerTest ${GeneratedSources}
+                                 ${TestSources}
 								  Source/JoypadHandler.cpp
 								  Source/JoypadAxis.cpp
 								  Source/JoypadButton.cpp
@@ -28,4 +28,4 @@ add_executable(JoypadHandlerTest, ${GeneratedSources}
 								  Source/PressedOrReleased.cpp )
 
 set(EXTERNAL_LIBS -pthread -lXtst -lQtGui -lQtCore -lpthread -lX11)
-target_link_libraries (JoypadHandlerTest, ${Gtest} ${EXTERNAL_LIBS})
+target_link_libraries (JoypadHandlerTest gtest gtest_main gmock ${EXTERNAL_LIBS})

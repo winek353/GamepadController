@@ -8,6 +8,7 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController) :
 {
 	mouseSpeedX = 0;
 	mouseSpeedY = 0;
+	flag = true;
 }
 
 void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased)
@@ -37,15 +38,48 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
   //cout << "Axis " << axis << " value = " << value << endl;
   if(axis==AXIS_RIGHT_HORIZONTAL)
 	{
-		mouseSpeedX = - value / 2048;
+		mouseSpeedX = value / 2048;
 	}
   else if(axis == AXIS_RIGHT_VERTICAL)
 	{
 		mouseSpeedY = value / 2048;
 	}
+	if (axis ==AXIS_LEFT_HORIZONTAL)
+	{
+
+		if (value >(-25000)&&value<25000) flag =true; // isLeftHorizontalAxisInMiddle
+		if ( (value<(-28000)&&flag)  ||  (value>28000&&flag))
+		{
+			LeftAxisHorizontalMovements (value, flag);
+		}
+		
+	}
+
 }
 
 void JoypadHandler::handleTime() // once a 1/20 s
 {
 	systemController->moveMouse(mouseSpeedX, mouseSpeedY);
 }
+void JoypadHandler::LeftAxisHorizontalMovements (int value, bool &flag)
+	{
+		if (value<(-28000))
+		{
+			systemController->pressKey(42); // switchToDesktopToTheLeft
+			systemController->pressKey(56);
+			systemController->pressKey(30);
+			systemController->releaseKey(30);
+			systemController->releaseKey(56);
+			systemController->releaseKey(42);
+		}
+		else if(value>28000)
+		{
+			systemController->pressKey(42); //
+			systemController->pressKey(56);
+			systemController->pressKey(32);
+			systemController->releaseKey(32);
+			systemController->releaseKey(56);
+			systemController->releaseKey(42);
+		}
+		flag=false;
+	}

@@ -13,6 +13,7 @@ public:
   void clickMouse(int);
   void unclickMouse(int);
   void runCommand(std::string);
+  std::string getApplicationOnTop();
   
 private:
   Display* display;

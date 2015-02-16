@@ -17,6 +17,7 @@ file(GLOB TestSources "Test/*.cpp")
 file(GLOB Gtest "Gtest/gtest-all.o"
 				"Gtest/gtest_main.o"
 				"Gtest/gmock-all.o")
+file(GLOB Sources "Source/*.cpp")
 
 add_executable(JoypadHandlerTest ${GeneratedSources}
                                  ${TestSources}
@@ -29,3 +30,6 @@ add_executable(JoypadHandlerTest ${GeneratedSources}
 
 set(EXTERNAL_LIBS -pthread -lXtst -lQtGui -lQtCore -lpthread -lX11)
 target_link_libraries (JoypadHandlerTest gtest gtest_main gmock ${EXTERNAL_LIBS})
+
+add_executable(GamepadController EXCLUDE_FROM_ALL ${GeneratedSources} ${Sources})
+target_link_libraries(GamepadController ${EXTERNAL_LIBS})

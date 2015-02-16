@@ -10,4 +10,5 @@ public:
   virtual void clickMouse(int) = 0;
   virtual void unclickMouse(int) = 0;
   virtual void runCommand(std::string command) = 0;
+  virtual std::string getApplicationOnTop() = 0;
 };

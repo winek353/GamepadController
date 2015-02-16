@@ -38,3 +38,8 @@ void SystemController::unclickMouse(int button)
 {
   XTestFakeButtonEvent(display, button, 0, 0);
 }
+
+std::string SystemController::getApplicationOnTop()
+{
+    return "plasma-desktop";
+}

@@ -13,8 +13,6 @@ public:
     joypadHandler(&sysConteollerMock)
   {}
 
-  void expectSwitchToLeftDesktop();
-  void expectSwitchToRightDesktop();
 protected:
   SystemControllerMock sysConteollerMock;
   JoypadHandler joypadHandler;
@@ -71,74 +69,5 @@ TEST_F(JoypadHandlerTestSuite, shouldNotMoveMouse_whenAxisRightIsInDeadZone)
     joypadHandler.handleTime();
 }
 
-void JoypadHandlerTestSuite::expectSwitchToLeftDesktop()
-{
-  EXPECT_CALL(sysConteollerMock, pressKey(30));
-  EXPECT_CALL(sysConteollerMock, pressKey(42));
-  EXPECT_CALL(sysConteollerMock, pressKey(56));
-  EXPECT_CALL(sysConteollerMock, releaseKey(30));
-  EXPECT_CALL(sysConteollerMock, releaseKey(42));
-  EXPECT_CALL(sysConteollerMock, releaseKey(56));
-}
 
-void JoypadHandlerTestSuite::expectSwitchToRightDesktop()
-{
-  EXPECT_CALL(sysConteollerMock, pressKey(32));
-  EXPECT_CALL(sysConteollerMock, pressKey(42));
-  EXPECT_CALL(sysConteollerMock, pressKey(56));
-  EXPECT_CALL(sysConteollerMock, releaseKey(32));
-  EXPECT_CALL(sysConteollerMock, releaseKey(42));
-  EXPECT_CALL(sysConteollerMock, releaseKey(56));
-}
 
-TEST_F(JoypadHandlerTestSuite, shouldSwitchDesktopToTheLeft_whenLeftAxisGoBelowThreshold)
-{
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 0);
-  expectSwitchToLeftDesktop();
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, -28667);
-}
-
-TEST_F(JoypadHandlerTestSuite, shouldSwitchDesktopToTheRight_whenLeftAxisGoAboveThreshold)
-{
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 0);
-  expectSwitchToRightDesktop();
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 28667);
-}
-
-TEST_F(JoypadHandlerTestSuite, shouldNotSwitchToDesktopToTheLeft_ifLeftAxisDidntGoAboveThreshold)
-{
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 0);
-  expectSwitchToLeftDesktop();
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, -28667);
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, -28650);
-}
-
-TEST_F(JoypadHandlerTestSuite, shouldNotSwitchToDesktopToTheRight_ifLeftAxisDidntGoBelowThreshold)
-{
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 0);
-  expectSwitchToRightDesktop();
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 28667);
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 28650);
-}
-
-TEST_F(JoypadHandlerTestSuite, shouldAgainSwitchToDesktopToTheLeft_ifLeftAxisGoAboveThreshold)
-{
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 0);
-  expectSwitchToLeftDesktop();
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, -28667);
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, -24667);
-  
-  expectSwitchToLeftDesktop();
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, -28650);
-}
-
-TEST_F(JoypadHandlerTestSuite, shouldAgainSwitchToDesktopToTheRight_ifLeftAxisGoBelowThreshold)
-{
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 0);
-  expectSwitchToRightDesktop();
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 28667);
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 24667);
-  
-  expectSwitchToRightDesktop();
-  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 28650);
-}

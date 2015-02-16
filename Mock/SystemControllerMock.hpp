@@ -12,4 +12,5 @@ public:
   MOCK_METHOD1(unclickMouse, void(int));
 
   MOCK_METHOD1(runCommand, void(std::string command));
+  MOCK_METHOD0(getApplicationOnTop, std::string());
 };

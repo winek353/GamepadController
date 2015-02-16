@@ -10,6 +10,12 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController) :
 	mouseSpeedY = 0;
 	flag = true;
 }
+int calculateMouseSpeed (int value)
+    {
+        if (value>= 2048) return (value-2048)/2048;
+        else if(value<=-2048) return (value+2048)/2048;
+        else return 0;
+    }
 
 void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased)
 {
@@ -38,11 +44,11 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
   //cout << "Axis " << axis << " value = " << value << endl;
   if(axis==AXIS_RIGHT_HORIZONTAL)
 	{
-		mouseSpeedX = value / 2048;
+        mouseSpeedX = calculateMouseSpeed (value);
 	}
   else if(axis == AXIS_RIGHT_VERTICAL)
 	{
-		mouseSpeedY = value / 2048;
+        mouseSpeedY = calculateMouseSpeed (value);
 	}
 	if (axis ==AXIS_LEFT_HORIZONTAL)
 	{

@@ -12,7 +12,7 @@ public:
     sysConteollerMock(),
     joypadHandler(&sysConteollerMock)
   {}
-  
+
   void expectSwitchToLeftDesktop();
   void expectSwitchToRightDesktop();
 protected:
@@ -40,24 +40,35 @@ TEST_F(JoypadHandlerTestSuite, shouldClickRightMouseButton_whenRBisPressed)
 
 TEST_F(JoypadHandlerTestSuite, shouldMoveMouseX_whenAxisRightHorizontalIsMoved)
 {
-  joypadHandler.handleAxis(AXIS_RIGHT_HORIZONTAL, -3*2048);
+  joypadHandler.handleAxis(AXIS_RIGHT_HORIZONTAL, -3*2048-2048);
   EXPECT_CALL(sysConteollerMock, moveMouse(-3,0));
   joypadHandler.handleTime();
 
-  joypadHandler.handleAxis(AXIS_RIGHT_HORIZONTAL, 5*2048);
+  joypadHandler.handleAxis(AXIS_RIGHT_HORIZONTAL, 5*2048+2048);
   EXPECT_CALL(sysConteollerMock, moveMouse(5,0));
   joypadHandler.handleTime();
 }
 
 TEST_F(JoypadHandlerTestSuite, shouldMoveMouseY_whenAxisRightVertcalIsMoved)
 {
-  joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, 3*2048);
+  joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, 3*2048+2048);
   EXPECT_CALL(sysConteollerMock, moveMouse(0,3));
   joypadHandler.handleTime();
 
-  joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, -5*2048);
+  joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, -5*2048-2048);
   EXPECT_CALL(sysConteollerMock, moveMouse(0,-5));
   joypadHandler.handleTime();
+}
+
+TEST_F(JoypadHandlerTestSuite, shouldNotMoveMouse_whenAxisRightIsInDeadZone)
+{
+    joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, 3000);
+    EXPECT_CALL(sysConteollerMock, moveMouse(0,0));
+    joypadHandler.handleTime();
+
+    joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, -3000);
+    EXPECT_CALL(sysConteollerMock, moveMouse(0,0));
+    joypadHandler.handleTime();
 }
 
 void JoypadHandlerTestSuite::expectSwitchToLeftDesktop()

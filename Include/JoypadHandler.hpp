@@ -13,6 +13,7 @@ public:
   void handleTime();
 
 private:
+  bool screenReadyToMove;
   bool flag;
   void LeftAxisHorizontalMovements (int value, bool &flag);
   int mouseSpeedX, mouseSpeedY;

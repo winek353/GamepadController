@@ -14,7 +14,7 @@ public:
   {}
 
 protected:
-  SystemControllerMock sysConteollerMock;
+  StrictMock<SystemControllerMock> sysConteollerMock;
   JoypadHandler joypadHandler;
 };
 

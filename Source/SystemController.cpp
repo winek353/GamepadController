@@ -1,7 +1,9 @@
 #include <QX11Info>
 #include <X11/keysymdef.h>
 #include <stdlib.h>
+#include <fstream>
 #include "SystemController.hpp"
+#include <iostream>
 
 
 SystemController::SystemController()
@@ -41,5 +43,13 @@ void SystemController::unclickMouse(int button)
 
 std::string SystemController::getApplicationOnTop()
 {
-    return "plasma-desktop";
+    system("cat /proc/$(xdotool getwindowpid $(xdotool getwindowfocus))/comm > app_on_top.txt");
+    std::ifstream appOnTopFile("app_on_top.txt");
+    if(!appOnTopFile)
+    {
+        std::cout << "error: can't read file app_on_top.txt\n";
+    }
+    std::string result;
+    appOnTopFile >> result;
+    return result;
 }

@@ -13,6 +13,7 @@ public:
   void handleTime();
 
 private:
+  void chromeButtons(JoypadButton, PressedOrReleased);
   bool screenReadyToMove;
   bool flag;
   void LeftAxisHorizontalMovements (int value, bool &flag);

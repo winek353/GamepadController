@@ -28,10 +28,78 @@ bool screenReady (int value)
             return false;
         }
     }
+void JoypadHandler::chromeButtons(JoypadButton button, PressedOrReleased pressedOrReleased)
+    {
+    if(button == BUTTON_A)
+    {
+      if(pressedOrReleased == PRESSED)
+      {
+          systemController->pressKey(29);
+          systemController->pressKey(20);
+          systemController->releaseKey(20);
+          systemController->releaseKey(29);
+      }
+    }
+    if(button == BUTTON_B)
+    {
+      if(pressedOrReleased == PRESSED)
+      {
+          systemController->pressKey(29);
+          systemController->pressKey(17);
+          systemController->releaseKey(17);
+          systemController->releaseKey(29);
+       }
+    }
+    if(button == BUTTON_LEFT)
+    {
+      if(pressedOrReleased == PRESSED)
+      {
+          systemController->pressKey(29);
+          systemController->pressKey(104);
+          systemController->releaseKey(104);
+          systemController->releaseKey(29);
+      }
+    }
+    if(button == BUTTON_RIGHT)
+    {
+      if(pressedOrReleased == PRESSED)
+      {
+          systemController->pressKey(29);
+          systemController->pressKey(109);
+          systemController->releaseKey(109);
+          systemController->releaseKey(29);
+       }
+    }
+    if(button == BUTTON_UP)
+    {
+      if(pressedOrReleased == PRESSED)
+      {
+          systemController->pressKey(29);
+          systemController->pressKey(13);
+          systemController->releaseKey(13);
+          systemController->releaseKey(29);
+      }
+    }
+    if(button == BUTTON_DOWN)
+    {
+      if(pressedOrReleased == PRESSED)
+      {
+          systemController->pressKey(29);
+          systemController->pressKey(12);
+          systemController->releaseKey(12);
+          systemController->releaseKey(29);
+      }
+    }
+
+    }
 
 void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased)
 {
   //cout << "Button " << button << " was " << pressedOrReleased << endl;
+  if(systemController->getApplicationOnTop().compare("chrome")==0)
+  {
+      chromeButtons(button, pressedOrReleased);
+  }
   if(button==BUTTON_XBOX)
   {
       if(pressedOrReleased == PRESSED)

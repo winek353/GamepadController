@@ -13,6 +13,11 @@ public:
     joypadHandler(&sysConteollerMock)
   {}
 
+  void SetUp()
+  {
+      EXPECT_CALL(sysConteollerMock, getApplicationOnTop()).WillRepeatedly(Return(std::string("plasma-desktop")));
+  }
+
 protected:
   StrictMock<SystemControllerMock> sysConteollerMock;
   JoypadHandler joypadHandler;

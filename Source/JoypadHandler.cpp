@@ -1,5 +1,6 @@
 #include "JoypadHandler.hpp"
 #include <iostream>
+#include "Logger.hpp"
 
 using namespace std;
 
@@ -32,7 +33,7 @@ bool screenReady (int value)
 
 void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased)
 {
-  //cout << "Button " << button << " was " << pressedOrReleased << endl;
+  DEBUG << "Button " << button << " was " << pressedOrReleased;
   if(systemController->getApplicationOnTop().compare("chrome")==0)
   {
       chromeShortcuts.chromeButtons(button, pressedOrReleased);
@@ -63,7 +64,7 @@ void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedO
 
 void JoypadHandler::handleAxis(JoypadAxis axis, int value)
 {
-  //cout << "Axis " << axis << " value = " << value << endl;
+  DEBUG << "Axis " << axis << " value = " << value;
     if(systemController->getApplicationOnTop().compare("chrome")==0)
     {
         chromeShortcuts.chromeAxis( axis, value);
@@ -95,6 +96,7 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
 
 void JoypadHandler::handleTime() // once a 1/20 s
 {
+    DEBUG << "handleTime was called";
 	systemController->moveMouse(mouseSpeedX, mouseSpeedY);
     if(systemController->getApplicationOnTop().compare("chrome")==0)
         chromeShortcuts.handleTime();

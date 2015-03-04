@@ -5,13 +5,30 @@ currentTime=`date +"%m-%d-%y_%T"`
 mkdir -p TestResults/$currentTime
 
 logsFile=TestResults/$currentTime/JoypadHandlerTest.out
+./JoypadHandlerTest --gtest_list_tests > regressionList.txt
 
-./JoypadHandlerTest &> $logsFile
+testSuite=""
+testName=""
 
-if [ "$?" -eq "0" ]; then
-    echo "All test passed! - good job"
-else
-    echo "Some of tests failed - please check results in $logsFile"
-fi
+while read line;
+do
+    if [[ $line =~ .*\. ]]; then
+        testSuite=$line
+    else
+        testName=$line
 
-cp $logsFile ./last_test_results.txt
+        mkdir -p TestResults/$currentTime/$testSuite$testName
+        ./JoypadHandlerTest --gtest_filter=$testSuite$testName &> TestResults/$currentTime/$testSuite$testName/gtest.txt
+        testResult=$?
+        mv debug.txt TestResults/$currentTime/$testSuite$testName
+
+        if [ $testResult -eq 0 ];
+        then
+            echo -e "\e[32m   PASSED   $testSuite$testName\e[0m"
+        else
+            echo -e "\e[31m   FAILED   $testSuite$testName\e[0m"
+        fi
+
+    fi
+done < regressionList.txt
+rm -f regressionList.txt

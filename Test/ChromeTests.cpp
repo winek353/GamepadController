@@ -139,3 +139,10 @@ TEST_F(ChromeTests, shouldPressArrow_exeryFourTimesHandleTimeIsCalled)
     expectPressAndReleaseKey(108);
     joypadHandler.handleTime();
 }
+
+TEST_F(ChromeTests, shouldNotPressAnyArrows_whenLeftJoyIsInDeadZone)
+{
+    joypadHandler.handleAxis(AXIS_LEFT_VERTICAL, 100);
+
+    joypadHandler.handleTime();
+}

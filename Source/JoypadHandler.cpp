@@ -4,7 +4,8 @@
 using namespace std;
 
 JoypadHandler::JoypadHandler(ISystemController* p_systemController) :
-  systemController(p_systemController)
+  systemController(p_systemController),
+  chromeShortcuts(p_systemController)
 {
 	mouseSpeedX = 0;
 	mouseSpeedY = 0;
@@ -28,77 +29,13 @@ bool screenReady (int value)
             return false;
         }
     }
-void JoypadHandler::chromeButtons(JoypadButton button, PressedOrReleased pressedOrReleased)
-    {
-    if(button == BUTTON_A)
-    {
-      if(pressedOrReleased == PRESSED)
-      {
-          systemController->pressKey(29);
-          systemController->pressKey(20);
-          systemController->releaseKey(20);
-          systemController->releaseKey(29);
-      }
-    }
-    if(button == BUTTON_B)
-    {
-      if(pressedOrReleased == PRESSED)
-      {
-          systemController->pressKey(29);
-          systemController->pressKey(17);
-          systemController->releaseKey(17);
-          systemController->releaseKey(29);
-       }
-    }
-    if(button == BUTTON_LEFT)
-    {
-      if(pressedOrReleased == PRESSED)
-      {
-          systemController->pressKey(29);
-          systemController->pressKey(104);
-          systemController->releaseKey(104);
-          systemController->releaseKey(29);
-      }
-    }
-    if(button == BUTTON_RIGHT)
-    {
-      if(pressedOrReleased == PRESSED)
-      {
-          systemController->pressKey(29);
-          systemController->pressKey(109);
-          systemController->releaseKey(109);
-          systemController->releaseKey(29);
-       }
-    }
-    if(button == BUTTON_UP)
-    {
-      if(pressedOrReleased == PRESSED)
-      {
-          systemController->pressKey(29);
-          systemController->pressKey(13);
-          systemController->releaseKey(13);
-          systemController->releaseKey(29);
-      }
-    }
-    if(button == BUTTON_DOWN)
-    {
-      if(pressedOrReleased == PRESSED)
-      {
-          systemController->pressKey(29);
-          systemController->pressKey(12);
-          systemController->releaseKey(12);
-          systemController->releaseKey(29);
-      }
-    }
-
-    }
 
 void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased)
 {
   //cout << "Button " << button << " was " << pressedOrReleased << endl;
   if(systemController->getApplicationOnTop().compare("chrome")==0)
   {
-      chromeButtons(button, pressedOrReleased);
+      chromeShortcuts.chromeButtons(button, pressedOrReleased);
   }
   if(button==BUTTON_XBOX)
   {
@@ -127,6 +64,11 @@ void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedO
 void JoypadHandler::handleAxis(JoypadAxis axis, int value)
 {
   //cout << "Axis " << axis << " value = " << value << endl;
+    if(systemController->getApplicationOnTop().compare("chrome")==0)
+    {
+        chromeShortcuts.chromeAxis( axis, value);
+
+    }
   if(axis==AXIS_RIGHT_HORIZONTAL)
 	{
         mouseSpeedX = calculateMouseSpeed (value);
@@ -154,6 +96,8 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
 void JoypadHandler::handleTime() // once a 1/20 s
 {
 	systemController->moveMouse(mouseSpeedX, mouseSpeedY);
+    if(systemController->getApplicationOnTop().compare("chrome")==0)
+        chromeShortcuts.handleTime();
 }
 void JoypadHandler::LeftAxisHorizontalMovements (int value, bool &flag)
 	{

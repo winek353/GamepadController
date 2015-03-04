@@ -13,6 +13,11 @@ public:
     joypadHandler(&sysConteollerMock)
   {}
 
+  void SetUp()
+  {
+      EXPECT_CALL(sysConteollerMock, getApplicationOnTop()).WillRepeatedly(Return(std::string("plasma-desktop")));
+  }
+
   void expectSwitchToLeftDesktop();
   void expectSwitchToRightDesktop();
 protected:

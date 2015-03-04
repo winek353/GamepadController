@@ -15,12 +15,24 @@ public:
   void SetUp()
   {
       EXPECT_CALL(sysControllerMock, getApplicationOnTop()).WillRepeatedly(Return(std::string("chrome")));
+      ignoreMouseMovement();
+  }
+
+  void ignoreMouseMovement()
+  {
+      EXPECT_CALL(sysControllerMock, moveMouse(_,_)).Times(AnyNumber());
   }
 
   void expectCtrlPlusKey(int keycode)
   {
       EXPECT_CALL(sysControllerMock, pressKey(29));
       EXPECT_CALL(sysControllerMock, releaseKey(29));
+      EXPECT_CALL(sysControllerMock, pressKey(keycode));
+      EXPECT_CALL(sysControllerMock, releaseKey(keycode));
+  }
+
+  void expectPressAndReleaseKey(int keycode)
+  {
       EXPECT_CALL(sysControllerMock, pressKey(keycode));
       EXPECT_CALL(sysControllerMock, releaseKey(keycode));
   }
@@ -70,4 +82,60 @@ TEST_F(ChromeTests, shouldZoomOut_whenDownButtonIsPressed)
     expectCtrlPlusKey(12);
 
     joypadHandler.handleButton(BUTTON_DOWN, PRESSED);
+}
+
+TEST_F(ChromeTests, shouldPressDownArrow_whenAxisLeftVertiacalIsMovedDown)
+{
+    joypadHandler.handleAxis(AXIS_LEFT_VERTICAL, 32000);
+
+    expectPressAndReleaseKey(108);
+    joypadHandler.handleTime();
+}
+
+TEST_F(ChromeTests, shouldPressUpArrow_whenAxisLeftVertiacalIsMovedUp)
+{
+    joypadHandler.handleAxis(AXIS_LEFT_VERTICAL, -32000);
+
+    expectPressAndReleaseKey(103);
+    joypadHandler.handleTime();
+}
+
+TEST_F(ChromeTests, shouldPressLeftArrow_whenAxisLeftHorizontalIsMovedLeft)
+{
+    joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, -32000);
+
+    expectPressAndReleaseKey(105);
+    joypadHandler.handleTime();
+}
+
+TEST_F(ChromeTests, shouldPressRightArrow_whenAxisLeftHorizontalIsMovedRight)
+{
+    joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 32000);
+
+    expectPressAndReleaseKey(106);
+    joypadHandler.handleTime();
+}
+
+TEST_F(ChromeTests, shouldPressRightAndDownArrows_whenLeftJoyIsMovedRightDown)
+{
+    joypadHandler.handleAxis(AXIS_LEFT_VERTICAL, 32000);
+    joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 32000);
+
+    expectPressAndReleaseKey(108);
+    expectPressAndReleaseKey(106);
+    joypadHandler.handleTime();
+}
+
+TEST_F(ChromeTests, shouldPressArrow_exeryFourTimesHandleTimeIsCalled)
+{
+    joypadHandler.handleAxis(AXIS_LEFT_VERTICAL, 32000);
+
+    expectPressAndReleaseKey(108);
+    joypadHandler.handleTime();
+
+    for(int i=0;i<3;i++)
+        joypadHandler.handleTime();
+
+    expectPressAndReleaseKey(108);
+    joypadHandler.handleTime();
 }

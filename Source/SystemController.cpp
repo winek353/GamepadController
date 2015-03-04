@@ -4,6 +4,7 @@
 #include <fstream>
 #include "SystemController.hpp"
 #include <iostream>
+#include <ctime>
 
 
 SystemController::SystemController()
@@ -41,15 +42,33 @@ void SystemController::unclickMouse(int button)
   XTestFakeButtonEvent(display, button, 0, 0);
 }
 
+std::string getCmdOutput(const std::string& mStr)
+{
+    std::string result, file;
+    FILE* pipe = popen(mStr.c_str(), "r");
+    char buffer[256];
+
+    while(fgets(buffer, sizeof(buffer), pipe) != NULL)
+    {
+        file = buffer;
+        result += file.substr(0, file.size() - 1);
+    }
+
+    pclose(pipe);
+    return result;
+}
+
 std::string SystemController::getApplicationOnTop()
 {
-    system("cat /proc/$(xdotool getwindowpid $(xdotool getwindowfocus))/comm > app_on_top.txt");
-    std::ifstream appOnTopFile("app_on_top.txt");
-    if(!appOnTopFile)
+    static std::string appOnTop;
+    static int lastTimeCalled = std::clock();
+    int timeNow = std::clock();
+    if(timeNow - lastTimeCalled > CLOCKS_PER_SEC/50)
     {
-        std::cout << "error: can't read file app_on_top.txt\n";
+        std::string command = "cat /proc/$(xdotool getwindowpid $(xdotool getwindowfocus))/comm";
+        lastTimeCalled = std::clock();
+        appOnTop = getCmdOutput(command);
     }
-    std::string result;
-    appOnTopFile >> result;
-    return result;
+
+    return appOnTop;
 }

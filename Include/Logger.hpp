@@ -30,4 +30,5 @@ private:
 };
 
 
-#define DEBUG int ___debug___ = 1; while(true) if(___debug___--==0){Logger::getLogger().getDebugStream() << std::endl;break;} else Logger::getLogger().getDebugStream() << __FILE__ << ":" << __LINE__ << " "
+#define DEBUG_ENABLED 1
+#define DEBUG if(DEBUG_ENABLED) for(int ___debug___ = 1;___debug___>=0;___debug___--) if(___debug___==0){Logger::getLogger().getDebugStream() << std::endl;} else Logger::getLogger().getDebugStream() << __FILE__ << ":" << __LINE__ << " "

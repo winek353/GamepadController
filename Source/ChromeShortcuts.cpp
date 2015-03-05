@@ -1,15 +1,16 @@
 #include "ChromeShortcuts.hpp"
 #include <iostream>
 using namespace std;
+#include "Logger.hpp"
 
 ChromeShortcuts::ChromeShortcuts(ISystemController* systemController)
 {
     this->systemController = systemController;
     frequencyHOR=0;
-    eventCounterHOR=0;
+    eventCounterHOR=100;
     moveOrNotHOR=false;
     frequencyVER=0;
-    eventCounterVER=0;
+    eventCounterVER=100;
     moveOrNotVER=false;
 }
 
@@ -105,40 +106,44 @@ void ChromeShortcuts::handleTime() // once a 1/20 s
     verMovements();
     horMovements();
 
+
 }
 void ChromeShortcuts::verMovements()
 {
-    if (moveOrNotVER && eventCounterVER%frequencyVER==0)
+    DEBUG << "verMovements " << eventCounterVER << " " << frequencyVER;
+    if (moveOrNotVER && eventCounterVER>=frequencyVER)
     {
-        if (frequencyVER<0 && moveOrNotVER)
+        if (frequencyVER<0)
         {
             systemController->pressKey(103);
             systemController->releaseKey(103);
+            eventCounterVER=0;
         }
-        else if(frequencyVER>0 && moveOrNotVER)
+        else if(frequencyVER>0)
         {
              systemController->pressKey(108);
              systemController->releaseKey(108);
-
+             eventCounterVER=0;
         }
     }
     eventCounterVER++;
 }
 void ChromeShortcuts::horMovements()
 {
-    if (moveOrNotHOR && eventCounterHOR%frequencyHOR==0)
+    DEBUG << "horMovements " << eventCounterHOR << " " << frequencyHOR;
+    if (moveOrNotHOR && eventCounterHOR>=frequencyHOR)
     {
-        if (frequencyHOR<0&&moveOrNotHOR)
+        if (frequencyHOR<0)
         {
             systemController->pressKey(105);
             systemController->releaseKey(105);
-
+            eventCounterHOR=0;
         }
-        else if(frequencyHOR>0&&moveOrNotHOR)
+        else if(frequencyHOR>0)
         {
              systemController->pressKey(106);
              systemController->releaseKey(106);
-
+             eventCounterHOR=0;
         }
     }
     eventCounterHOR++;

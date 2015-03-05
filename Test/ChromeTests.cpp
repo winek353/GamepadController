@@ -146,3 +146,19 @@ TEST_F(ChromeTests, shouldNotPressAnyArrows_whenLeftJoyIsInDeadZone)
 
     joypadHandler.handleTime();
 }
+
+TEST_F(ChromeTests, shouldChangeScroolingSpeed_afterLeftJoyUpdate)
+{
+    joypadHandler.handleAxis(AXIS_LEFT_VERTICAL, 8000);
+
+    expectPressAndReleaseKey(108);
+    joypadHandler.handleTime();
+
+    for(int i=0;i<9;i++)
+        joypadHandler.handleTime();
+
+    joypadHandler.handleAxis(AXIS_LEFT_VERTICAL, 32000);
+
+    expectPressAndReleaseKey(108);
+    joypadHandler.handleTime();
+}

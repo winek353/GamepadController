@@ -81,7 +81,7 @@ void ChromeShortcuts::chromeAxis(JoypadAxis axis, int value)
 {
     if (axis==AXIS_LEFT_VERTICAL)
     {
-      if (value>2000||value<2000)
+      if (value>2000||value< -2000)
       {
           frequencyVER=128000/value;
           moveOrNotVER=true;
@@ -91,7 +91,7 @@ void ChromeShortcuts::chromeAxis(JoypadAxis axis, int value)
     }
     if (axis==AXIS_LEFT_HORIZONTAL)
     {
-      if (value>2000||value<2000)
+      if (value>2000||value< -2000)
       {
           frequencyHOR=128000/value;
           moveOrNotHOR=true;

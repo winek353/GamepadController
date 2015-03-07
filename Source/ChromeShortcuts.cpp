@@ -2,6 +2,8 @@
 #include <iostream>
 using namespace std;
 #include "Logger.hpp"
+#include <cstdlib>
+
 
 ChromeShortcuts::ChromeShortcuts(ISystemController* systemController)
 {
@@ -24,10 +26,10 @@ void ChromeShortcuts::pressCtrlPlusKey(int key)
 
 void ChromeShortcuts::updateArrowsPressingParams(int value, bool &moveOrNot, int &frequency)
 {
-    if (value>2000||value< -2000)
+   if (value>2000||value< -2000)
     {
-        frequency=128000/value;
-        moveOrNot=true;
+	      frequency=128000/value;
+	      moveOrNot=true;
     }
     else
         moveOrNot=false;
@@ -102,21 +104,18 @@ void ChromeShortcuts::pressConditionalyArrows(bool moveOrNot,
                                               int keyNegativeFreq,
                                               int keyPositiveFreq)
 {
-  if (moveOrNot && eventCounter>=frequency)
-    {
-        if (frequency<0)
+        if (frequency<0 && moveOrNot && eventCounter >= -frequency)
         {
             systemController->pressKey(keyNegativeFreq);
             systemController->releaseKey(keyNegativeFreq);
             eventCounter=0;
         }
-        else if(frequency>0)
+        else if(frequency>0 && moveOrNot && eventCounter>= frequency)
         {
              systemController->pressKey(keyPositiveFreq);
              systemController->releaseKey(keyPositiveFreq);
              eventCounter=0;
         }
-    }
     eventCounter++;   
 }
 

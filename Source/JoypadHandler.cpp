@@ -70,11 +70,11 @@ void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedO
 			  systemController->unclickMouse(3);
 	    }
     }
-  if (button == BUTTON_Y && isLT_pressed)
+  if  (button == BUTTON_Y && isLT_pressed && pressedOrReleased == PRESSED)
   {
       pressCtrlPlusAltPlusKey(18);
   }
-    if (button == BUTTON_A && isLT_pressed)
+    if (button == BUTTON_A && isLT_pressed && pressedOrReleased == PRESSED)
   {
       pressCtrlPlusAltPlusKey(16);
   }

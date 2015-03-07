@@ -22,4 +22,11 @@ private:
     int  frequencyVER;
     int eventCounterVER;
     bool moveOrNotVER;
+    void pressCtrlPlusKey(int);
+    void updateArrowsPressingParams(int value, bool &moveOrNot, int &frequency);
+    void pressConditionalyArrows(bool moveOrNot,
+                                 int frequency,
+                                 int &eventCounter,
+                                 int keyNegativeFreq,
+                                 int keyPositiveFreq);
 };

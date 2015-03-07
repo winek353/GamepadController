@@ -14,10 +14,12 @@ public:
   void handleTime();
 
 private:
+  void pressCtrlPlusAltPlusKey(int key);
   bool screenReadyToMove;
   bool flag;
   void LeftAxisHorizontalMovements (int value, bool &flag);
   int mouseSpeedX, mouseSpeedY;
   ISystemController* systemController;
   ChromeShortcuts chromeShortcuts;
+  
 };

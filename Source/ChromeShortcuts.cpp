@@ -14,66 +14,67 @@ ChromeShortcuts::ChromeShortcuts(ISystemController* systemController)
     moveOrNotVER=false;
 }
 
+void ChromeShortcuts::pressCtrlPlusKey(int key)
+{
+    systemController->pressKey(29);
+    systemController->pressKey(key);
+    systemController->releaseKey(key);
+    systemController->releaseKey(29);
+}
+
+void ChromeShortcuts::updateArrowsPressingParams(int value, bool &moveOrNot, int &frequency)
+{
+    if (value>2000||value< -2000)
+    {
+        frequency=128000/value;
+        moveOrNot=true;
+    }
+    else
+        moveOrNot=false;
+}
+
 void ChromeShortcuts::chromeButtons(JoypadButton button, PressedOrReleased pressedOrReleased)
 {
     if(button == BUTTON_A)
     {
       if(pressedOrReleased == PRESSED)
       {
-          systemController->pressKey(29);
-          systemController->pressKey(20);
-          systemController->releaseKey(20);
-          systemController->releaseKey(29);
+          pressCtrlPlusKey(20);
       }
     }
     if(button == BUTTON_B)
     {
       if(pressedOrReleased == PRESSED)
       {
-          systemController->pressKey(29);
-          systemController->pressKey(17);
-          systemController->releaseKey(17);
-          systemController->releaseKey(29);
+            pressCtrlPlusKey(17);
        }
     }
     if(button == BUTTON_LEFT)
     {
       if(pressedOrReleased == PRESSED)
       {
-          systemController->pressKey(29);
-          systemController->pressKey(104);
-          systemController->releaseKey(104);
-          systemController->releaseKey(29);
+          pressCtrlPlusKey(104);
       }
     }
     if(button == BUTTON_RIGHT)
     {
       if(pressedOrReleased == PRESSED)
       {
-          systemController->pressKey(29);
-          systemController->pressKey(109);
-          systemController->releaseKey(109);
-          systemController->releaseKey(29);
+          pressCtrlPlusKey(109);
        }
     }
     if(button == BUTTON_UP)
     {
       if(pressedOrReleased == PRESSED)
       {
-          systemController->pressKey(29);
-          systemController->pressKey(13);
-          systemController->releaseKey(13);
-          systemController->releaseKey(29);
+          pressCtrlPlusKey(13);
       }
     }
     if(button == BUTTON_DOWN)
     {
       if(pressedOrReleased == PRESSED)
       {
-          systemController->pressKey(29);
-          systemController->pressKey(12);
-          systemController->releaseKey(12);
-          systemController->releaseKey(29);
+          pressCtrlPlusKey(12);
       }
     }
 
@@ -82,69 +83,58 @@ void ChromeShortcuts::chromeAxis(JoypadAxis axis, int value)
 {
     if (axis==AXIS_LEFT_VERTICAL)
     {
-      if (value>2000||value< -2000)
-      {
-          frequencyVER=128000/value;
-          moveOrNotVER=true;
-      }
-      else
-          moveOrNotVER=false;
+        updateArrowsPressingParams(value, moveOrNotVER, frequencyVER);
     }
     if (axis==AXIS_LEFT_HORIZONTAL)
     {
-      if (value>2000||value< -2000)
-      {
-          frequencyHOR=128000/value;
-          moveOrNotHOR=true;
-      }
-      else
-          moveOrNotHOR=false;
+      updateArrowsPressingParams(value, moveOrNotHOR, frequencyHOR);
     }
 }
 void ChromeShortcuts::handleTime() // once a 1/20 s
 {
     verMovements();
     horMovements();
-
-
 }
+
+void ChromeShortcuts::pressConditionalyArrows(bool moveOrNot,
+                                              int frequency,
+                                              int &eventCounter,
+                                              int keyNegativeFreq,
+                                              int keyPositiveFreq)
+{
+  if (moveOrNot && eventCounter>=frequency)
+    {
+        if (frequency<0)
+        {
+            systemController->pressKey(keyNegativeFreq);
+            systemController->releaseKey(keyNegativeFreq);
+            eventCounter=0;
+        }
+        else if(frequency>0)
+        {
+             systemController->pressKey(keyPositiveFreq);
+             systemController->releaseKey(keyPositiveFreq);
+             eventCounter=0;
+        }
+    }
+    eventCounter++;   
+}
+
 void ChromeShortcuts::verMovements()
 {
     DEBUG << "verMovements " << eventCounterVER << " " << frequencyVER;
-    if (moveOrNotVER && eventCounterVER>=frequencyVER)
-    {
-        if (frequencyVER<0)
-        {
-            systemController->pressKey(103);
-            systemController->releaseKey(103);
-            eventCounterVER=0;
-        }
-        else if(frequencyVER>0)
-        {
-             systemController->pressKey(108);
-             systemController->releaseKey(108);
-             eventCounterVER=0;
-        }
-    }
-    eventCounterVER++;
+    pressConditionalyArrows(moveOrNotVER,
+                            frequencyVER,
+                            eventCounterVER,
+                            103,
+                            108);
 }
 void ChromeShortcuts::horMovements()
 {
     DEBUG << "horMovements " << eventCounterHOR << " " << frequencyHOR;
-    if (moveOrNotHOR && eventCounterHOR>=frequencyHOR)
-    {
-        if (frequencyHOR<0)
-        {
-            systemController->pressKey(105);
-            systemController->releaseKey(105);
-            eventCounterHOR=0;
-        }
-        else if(frequencyHOR>0)
-        {
-             systemController->pressKey(106);
-             systemController->releaseKey(106);
-             eventCounterHOR=0;
-        }
-    }
-    eventCounterHOR++;
+    pressConditionalyArrows(moveOrNotHOR,
+                            frequencyHOR,
+                            eventCounterHOR,
+                            105,
+                            106);
 }

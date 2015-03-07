@@ -30,33 +30,53 @@ bool screenReady (int value)
             return false;
         }
     }
+void JoypadHandler::pressCtrlPlusAltPlusKey(int key)
+{
+    systemController->pressKey(29);
+    systemController->pressKey(56);
+    systemController->pressKey(key);
+    systemController->releaseKey(key);
+    systemController->releaseKey(56);
+    systemController->releaseKey(29);
+}
 
 void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased)
 {
   DEBUG << "Button " << button << " was " << pressedOrReleased;
-  if(systemController->getApplicationOnTop().compare("chrome")==0)
+  if(systemController->getApplicationOnTop().compare("steam")!=0)
+    {
+	    if(systemController->getApplicationOnTop().compare("chrome")==0)
+	    {
+		chromeShortcuts.chromeButtons(button, pressedOrReleased);
+	    }
+	    if(button==BUTTON_XBOX)
+	    {
+		if(pressedOrReleased == PRESSED)
+		    systemController->runCommand("~/bin/GamepadController/applaunch.sh");
+	    }
+	    
+	    if(button == BUTTON_LB)
+	    {
+		  if(pressedOrReleased == PRESSED)
+			  systemController->clickMouse(1);
+		  else
+			  systemController->unclickMouse(1);
+	    }
+	      if(button == BUTTON_RB)
+	    {
+		  if(pressedOrReleased == PRESSED)
+			  systemController->clickMouse(3);
+		  else
+			  systemController->unclickMouse(3);
+	    }
+    }
+  if (button == BUTTON_Y && screenReadyToMove)
   {
-      chromeShortcuts.chromeButtons(button, pressedOrReleased);
+      pressCtrlPlusAltPlusKey(18);
   }
-  if(button==BUTTON_XBOX)
+    if (button == BUTTON_A && screenReadyToMove)
   {
-      if(pressedOrReleased == PRESSED)
-          systemController->runCommand("~/bin/GamepadController/applaunch.sh");
-  }
-  
-  if(button == BUTTON_LB)
-  {
-	if(pressedOrReleased == PRESSED)
-		systemController->clickMouse(1);
-	else
-		systemController->unclickMouse(1);
-  }
-    if(button == BUTTON_RB)
-  {
-	if(pressedOrReleased == PRESSED)
-		systemController->clickMouse(3);
-	else
-		systemController->unclickMouse(3);
+      pressCtrlPlusAltPlusKey(16);
   }
   
   // Here implement handling of button events ;)
@@ -65,19 +85,23 @@ void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedO
 void JoypadHandler::handleAxis(JoypadAxis axis, int value)
 {
   DEBUG << "Axis " << axis << " value = " << value;
-    if(systemController->getApplicationOnTop().compare("chrome")==0)
+      if(systemController->getApplicationOnTop().compare("steam")!=0)
     {
-        chromeShortcuts.chromeAxis( axis, value);
+	    if(systemController->getApplicationOnTop().compare("chrome")==0)
+	    {
+		chromeShortcuts.chromeAxis( axis, value);
 
+	    }
+	  if(axis==AXIS_RIGHT_HORIZONTAL)
+		{
+		mouseSpeedX = calculateMouseSpeed (value);
+		}
+	  else if(axis == AXIS_RIGHT_VERTICAL)
+		{
+		mouseSpeedY = calculateMouseSpeed (value);
+		}
+	
     }
-  if(axis==AXIS_RIGHT_HORIZONTAL)
-	{
-        mouseSpeedX = calculateMouseSpeed (value);
-	}
-  else if(axis == AXIS_RIGHT_VERTICAL)
-	{
-        mouseSpeedY = calculateMouseSpeed (value);
-	}
    if (axis ==AXIS_LT)
    {
      screenReadyToMove = screenReady (value);
@@ -91,15 +115,19 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
 		}
 		
 	}
+	
 
 }
 
 void JoypadHandler::handleTime() // once a 1/20 s
 {
     DEBUG << "handleTime was called";
-	systemController->moveMouse(mouseSpeedX, mouseSpeedY);
-    if(systemController->getApplicationOnTop().compare("chrome")==0)
-        chromeShortcuts.handleTime();
+    if(systemController->getApplicationOnTop().compare("steam")!=0)
+    {
+	      systemController->moveMouse(mouseSpeedX, mouseSpeedY);
+	  if(systemController->getApplicationOnTop().compare("chrome")==0)
+	      chromeShortcuts.handleTime();
+    }
 }
 void JoypadHandler::LeftAxisHorizontalMovements (int value, bool &flag)
 	{

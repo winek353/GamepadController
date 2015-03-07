@@ -95,7 +95,7 @@ TEST_F(JoypadHandlerTestSuite, shuldTurnDownTheVolume_whenLTandA_isPressed)
 {
     expectCtrlAltKey(16);
     joypadHandler.handleAxis(AXIS_LT, 29000);
-    joypadHandler.handleButton(BUTTON_Y, PRESSED);
+    joypadHandler.handleButton(BUTTON_A, PRESSED);
 }
 
 TEST_F(JoypadHandlerTestSuite, shouldNotMoveMouse_whenSteamIsOnTop)

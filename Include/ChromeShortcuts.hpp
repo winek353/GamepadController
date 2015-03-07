@@ -9,7 +9,7 @@ class ChromeShortcuts
 public:
     ChromeShortcuts(ISystemController*);
 
-    void chromeButtons(JoypadButton button, PressedOrReleased pressedOrReleased);
+    void chromeButtons(JoypadButton button, PressedOrReleased pressedOrReleased, bool isLT_belowThreshold);
     void chromeAxis(JoypadAxis axis, int value);
     void handleTime();
     void verMovements();

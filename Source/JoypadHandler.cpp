@@ -47,7 +47,7 @@ void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedO
     {
 	    if(systemController->getApplicationOnTop().compare("chrome")==0)
 	    {
-		chromeShortcuts.chromeButtons(button, pressedOrReleased);
+		chromeShortcuts.chromeButtons(button, pressedOrReleased,isLT_pressed);
 	    }
 	    if(button==BUTTON_XBOX)
 	    {
@@ -70,6 +70,14 @@ void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedO
 			  systemController->unclickMouse(3);
 	    }
     }
+  if (button == BUTTON_X && isLT_pressed && pressedOrReleased == PRESSED)
+  {
+	pressCtrlPlusAltPlusKey(17);
+  }
+  if (button == BUTTON_B && isLT_pressed && pressedOrReleased == PRESSED)
+  {
+	pressCtrlPlusAltPlusKey(31);
+  }
   if  (button == BUTTON_Y && isLT_pressed && pressedOrReleased == PRESSED)
   {
       pressCtrlPlusAltPlusKey(18);

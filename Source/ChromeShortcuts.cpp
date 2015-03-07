@@ -35,21 +35,24 @@ void ChromeShortcuts::updateArrowsPressingParams(int value, bool &moveOrNot, int
         moveOrNot=false;
 }
 
-void ChromeShortcuts::chromeButtons(JoypadButton button, PressedOrReleased pressedOrReleased)
+void ChromeShortcuts::chromeButtons(JoypadButton button, PressedOrReleased pressedOrReleased, bool isLT_belowThreshold)
 {
-    if(button == BUTTON_A)
+    if (isLT_belowThreshold==false)
     {
-      if(pressedOrReleased == PRESSED)
-      {
-          pressCtrlPlusKey(20);
-      }
-    }
-    if(button == BUTTON_B)
-    {
-      if(pressedOrReleased == PRESSED)
-      {
-            pressCtrlPlusKey(17);
-       }
+	  if(button == BUTTON_A)
+	  {
+	    if(pressedOrReleased == PRESSED)
+	    {
+		pressCtrlPlusKey(20);
+	    }
+	  }
+	  if(button == BUTTON_B)
+	  {
+	    if(pressedOrReleased == PRESSED)
+	    {
+		  pressCtrlPlusKey(17);
+	    }
+	  }
     }
     if(button == BUTTON_LEFT)
     {

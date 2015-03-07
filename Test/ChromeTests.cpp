@@ -126,7 +126,7 @@ TEST_F(ChromeTests, shouldPressRightAndDownArrows_whenLeftJoyIsMovedRightDown)
     joypadHandler.handleTime();
 }
 
-TEST_F(ChromeTests, shouldPressArrow_exeryFourTimesHandleTimeIsCalled)
+TEST_F(ChromeTests, shouldPressDownArrow_everyFourTimesHandleTimeIsCalled)
 {
     joypadHandler.handleAxis(AXIS_LEFT_VERTICAL, 32000);
 
@@ -137,6 +137,20 @@ TEST_F(ChromeTests, shouldPressArrow_exeryFourTimesHandleTimeIsCalled)
         joypadHandler.handleTime();
 
     expectPressAndReleaseKey(108);
+    joypadHandler.handleTime();
+}
+
+TEST_F(ChromeTests, shouldPressUpArrow_everyFourTimesHandleTimeIsCalled)
+{
+    joypadHandler.handleAxis(AXIS_LEFT_VERTICAL, -32000);
+
+    expectPressAndReleaseKey(103);
+    joypadHandler.handleTime();
+
+    for(int i=0;i<3;i++)
+        joypadHandler.handleTime();
+
+    expectPressAndReleaseKey(103);
     joypadHandler.handleTime();
 }
 

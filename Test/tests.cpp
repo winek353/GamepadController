@@ -91,11 +91,23 @@ TEST_F(JoypadHandlerTestSuite, shouldTurnUpTheVolume_whenLTandY_isPressed)
     joypadHandler.handleButton(BUTTON_Y, PRESSED);
 }
 
+TEST_F(JoypadHandlerTestSuite, shouldNotTurnUpTheVolume_whenLTandY_isReleased)
+{
+    joypadHandler.handleAxis(AXIS_LT, 29000);
+    joypadHandler.handleButton(BUTTON_Y, RELEASED);
+}
+
 TEST_F(JoypadHandlerTestSuite, shuldTurnDownTheVolume_whenLTandA_isPressed)
 {
     expectCtrlAltKey(16);
     joypadHandler.handleAxis(AXIS_LT, 29000);
     joypadHandler.handleButton(BUTTON_A, PRESSED);
+}
+
+TEST_F(JoypadHandlerTestSuite, shuldNotTurnDownTheVolume_whenLTandA_isReleased)
+{
+    joypadHandler.handleAxis(AXIS_LT, 29000);
+    joypadHandler.handleButton(BUTTON_A, RELEASED);
 }
 
 TEST_F(JoypadHandlerTestSuite, shouldNotMoveMouse_whenSteamIsOnTop)

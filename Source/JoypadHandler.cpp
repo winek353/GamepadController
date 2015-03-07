@@ -11,7 +11,7 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController) :
 	mouseSpeedX = 0;
 	mouseSpeedY = 0;
 	flag = true;
-    screenReadyToMove = false;
+    isLT_pressed = false;
 }
 int calculateMouseSpeed (int value)
     {
@@ -19,7 +19,7 @@ int calculateMouseSpeed (int value)
         else if(value<=-2048) return (value+2048)/2048;
         else return 0;
     }
-bool screenReady (int value)
+bool isLT_belowThreshold (int value)
     {
         if(value>=25000)
         {
@@ -70,11 +70,11 @@ void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedO
 			  systemController->unclickMouse(3);
 	    }
     }
-  if (button == BUTTON_Y && screenReadyToMove)
+  if (button == BUTTON_Y && isLT_pressed)
   {
       pressCtrlPlusAltPlusKey(18);
   }
-    if (button == BUTTON_A && screenReadyToMove)
+    if (button == BUTTON_A && isLT_pressed)
   {
       pressCtrlPlusAltPlusKey(16);
   }
@@ -104,9 +104,9 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
     }
    if (axis ==AXIS_LT)
    {
-     screenReadyToMove = screenReady (value);
+     isLT_pressed = isLT_belowThreshold (value);
    }
-   if ((axis ==AXIS_LEFT_HORIZONTAL)&&screenReadyToMove)
+   if ((axis ==AXIS_LEFT_HORIZONTAL)&&isLT_pressed)
 	{
 		if (value >(-25000)&&value<25000) flag =true; // isLeftHorizontalAxisInMiddle
 		if ( (value<(-28000)&&flag)  ||  (value>28000&&flag))

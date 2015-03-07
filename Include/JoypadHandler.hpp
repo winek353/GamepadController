@@ -15,7 +15,7 @@ public:
 
 private:
   void pressCtrlPlusAltPlusKey(int key);
-  bool screenReadyToMove;
+  bool isLT_pressed;
   bool flag;
   void LeftAxisHorizontalMovements (int value, bool &flag);
   int mouseSpeedX, mouseSpeedY;

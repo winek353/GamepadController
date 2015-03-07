@@ -37,6 +37,16 @@ public:
       EXPECT_CALL(sysControllerMock, releaseKey(keycode));
   }
 
+  void expectCtrlAltKey(int keycode)
+  {
+      EXPECT_CALL(sysControllerMock, pressKey(29));
+      EXPECT_CALL(sysControllerMock, releaseKey(29));
+      EXPECT_CALL(sysControllerMock, pressKey(56));
+      EXPECT_CALL(sysControllerMock, releaseKey(56));
+      EXPECT_CALL(sysControllerMock, pressKey(keycode));
+      EXPECT_CALL(sysControllerMock, releaseKey(keycode));
+  }
+
 protected:
   StrictMock<SystemControllerMock> sysControllerMock;
   JoypadHandler joypadHandler;
@@ -175,4 +185,11 @@ TEST_F(ChromeTests, shouldChangeScroolingSpeed_afterLeftJoyUpdate)
 
     expectPressAndReleaseKey(108);
     joypadHandler.handleTime();
+}
+
+TEST_F(ChromeTests, shouldOnlyTurnDownTheVolume_whenLTandA_isPressed)
+{
+    expectCtrlAltKey(16);
+    joypadHandler.handleAxis(AXIS_LT, 29000);
+    joypadHandler.handleButton(BUTTON_A, PRESSED);
 }

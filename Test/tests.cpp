@@ -98,6 +98,20 @@ TEST_F(JoypadHandlerTestSuite, shuldTurnDownTheVolume_whenLTandA_isPressed)
     joypadHandler.handleButton(BUTTON_A, PRESSED);
 }
 
+TEST_F(JoypadHandlerTestSuite, shouldPlaySong_whenLTandX_isPressed)
+{
+    expectCtrlAltKey(17);
+    joypadHandler.handleAxis(AXIS_LT, 29000);
+    joypadHandler.handleButton(BUTTON_X, PRESSED);
+}
+
+TEST_F(JoypadHandlerTestSuite, shouldStopSong_whenLTandB_isPressed)
+{
+    expectCtrlAltKey(31);
+    joypadHandler.handleAxis(AXIS_LT, 29000);
+    joypadHandler.handleButton(BUTTON_B, PRESSED);
+}
+
 TEST_F(JoypadHandlerTestSuite, shouldNotMoveMouse_whenSteamIsOnTop)
 {
     EXPECT_CALL(sysConteollerMock, getApplicationOnTop()).WillRepeatedly(Return(std::string("steam")));

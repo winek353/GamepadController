@@ -1,86 +1,81 @@
 #include <gtest/gtest.h>
-#include "SystemControllerMock.hpp"
-#include "JoypadHandler.hpp"
+#include "JoypadHandlerTestBase.hpp"
 
 
 using namespace testing;
 
-class JoypadHandlerTestSuite : public Test
+class JoypadHandlerTestSuite : public JoypadHandlerTestBase
 {
 public:
   JoypadHandlerTestSuite() :
-    sysConteollerMock(),
-    joypadHandler(&sysConteollerMock)
+      JoypadHandlerTestBase()
   {}
 
   void SetUp()
   {
-      EXPECT_CALL(sysConteollerMock, getApplicationOnTop()).WillRepeatedly(Return(std::string("plasma-desktop")));
+      EXPECT_CALL(sysControllerMock, getApplicationOnTop()).WillRepeatedly(Return(std::string("plasma-desktop")));
+      configStoreDefaultExpectations();
   }
 
   void expectCtrlAltKey(int keycode)
   {
-      EXPECT_CALL(sysConteollerMock, pressKey(29));
-      EXPECT_CALL(sysConteollerMock, releaseKey(29));
-      EXPECT_CALL(sysConteollerMock, pressKey(56));
-      EXPECT_CALL(sysConteollerMock, releaseKey(56));
-      EXPECT_CALL(sysConteollerMock, pressKey(keycode));
-      EXPECT_CALL(sysConteollerMock, releaseKey(keycode));
+      EXPECT_CALL(sysControllerMock, pressKey(29));
+      EXPECT_CALL(sysControllerMock, releaseKey(29));
+      EXPECT_CALL(sysControllerMock, pressKey(56));
+      EXPECT_CALL(sysControllerMock, releaseKey(56));
+      EXPECT_CALL(sysControllerMock, pressKey(keycode));
+      EXPECT_CALL(sysControllerMock, releaseKey(keycode));
   }
-
-protected:
-  StrictMock<SystemControllerMock> sysConteollerMock;
-  JoypadHandler joypadHandler;
 };
 
 TEST_F(JoypadHandlerTestSuite, shouldClickLeftMouseButton_whenLBisPressed)
 {
-  EXPECT_CALL(sysConteollerMock, clickMouse(1));
+  EXPECT_CALL(sysControllerMock, clickMouse(1));
   joypadHandler.handleButton(BUTTON_LB, PRESSED);
 
-  EXPECT_CALL(sysConteollerMock, unclickMouse(1));
+  EXPECT_CALL(sysControllerMock, unclickMouse(1));
   joypadHandler.handleButton(BUTTON_LB, RELEASED);
 }
 
 TEST_F(JoypadHandlerTestSuite, shouldClickRightMouseButton_whenRBisPressed)
 {
-  EXPECT_CALL(sysConteollerMock, clickMouse(3));
+  EXPECT_CALL(sysControllerMock, clickMouse(3));
   joypadHandler.handleButton(BUTTON_RB, PRESSED);
 
-  EXPECT_CALL(sysConteollerMock, unclickMouse(3));
+  EXPECT_CALL(sysControllerMock, unclickMouse(3));
   joypadHandler.handleButton(BUTTON_RB, RELEASED);
 }
 
 TEST_F(JoypadHandlerTestSuite, shouldMoveMouseX_whenAxisRightHorizontalIsMoved)
 {
   joypadHandler.handleAxis(AXIS_RIGHT_HORIZONTAL, -3*2048-2048);
-  EXPECT_CALL(sysConteollerMock, moveMouse(-3,0));
+  EXPECT_CALL(sysControllerMock, moveMouse(-3,0));
   joypadHandler.handleTime();
 
   joypadHandler.handleAxis(AXIS_RIGHT_HORIZONTAL, 5*2048+2048);
-  EXPECT_CALL(sysConteollerMock, moveMouse(5,0));
+  EXPECT_CALL(sysControllerMock, moveMouse(5,0));
   joypadHandler.handleTime();
 }
 
 TEST_F(JoypadHandlerTestSuite, shouldMoveMouseY_whenAxisRightVertcalIsMoved)
 {
   joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, 3*2048+2048);
-  EXPECT_CALL(sysConteollerMock, moveMouse(0,3));
+  EXPECT_CALL(sysControllerMock, moveMouse(0,3));
   joypadHandler.handleTime();
 
   joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, -5*2048-2048);
-  EXPECT_CALL(sysConteollerMock, moveMouse(0,-5));
+  EXPECT_CALL(sysControllerMock, moveMouse(0,-5));
   joypadHandler.handleTime();
 }
 
 TEST_F(JoypadHandlerTestSuite, shouldNotMoveMouse_whenAxisRightIsInDeadZone)
 {
     joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, 3000);
-    EXPECT_CALL(sysConteollerMock, moveMouse(0,0));
+    EXPECT_CALL(sysControllerMock, moveMouse(0,0));
     joypadHandler.handleTime();
 
     joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, -3000);
-    EXPECT_CALL(sysConteollerMock, moveMouse(0,0));
+    EXPECT_CALL(sysControllerMock, moveMouse(0,0));
     joypadHandler.handleTime();
 }
 
@@ -126,7 +121,7 @@ TEST_F(JoypadHandlerTestSuite, shuldNotTurnDownTheVolume_whenLTandA_isReleased)
 
 TEST_F(JoypadHandlerTestSuite, shouldNotMoveMouse_whenSteamIsOnTop)
 {
-    EXPECT_CALL(sysConteollerMock, getApplicationOnTop()).WillRepeatedly(Return(std::string("steam")));
+    EXPECT_CALL(sysControllerMock, getApplicationOnTop()).WillRepeatedly(Return(std::string("steam")));
 
     joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, 3*2048+2048);
     joypadHandler.handleTime();
@@ -137,7 +132,7 @@ TEST_F(JoypadHandlerTestSuite, shouldNotMoveMouse_whenSteamIsOnTop)
 
 TEST_F(JoypadHandlerTestSuite, shouldNotClickMouse_whenSteamIsOnTop)
 {
-    EXPECT_CALL(sysConteollerMock, getApplicationOnTop()).WillRepeatedly(Return(std::string("steam")));
+    EXPECT_CALL(sysControllerMock, getApplicationOnTop()).WillRepeatedly(Return(std::string("steam")));
 
     joypadHandler.handleButton(BUTTON_LB, PRESSED);
     joypadHandler.handleButton(BUTTON_LB, RELEASED);

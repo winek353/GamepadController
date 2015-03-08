@@ -24,7 +24,8 @@ add_executable(JoypadHandlerTest ${GeneratedSources}
                                   Source/JoypadListener.cpp
                                   Source/SystemController.cpp
                                   Source/PressedOrReleased.cpp
-                                  Source/ChromeShortcuts.cpp )
+                                  Source/ChromeShortcuts.cpp
+                                  Source/ConfigStore.cpp )
 
 set(EXTERNAL_LIBS -pthread -lXtst -lQtGui -lQtCore -lpthread -lX11)
 target_link_libraries (JoypadHandlerTest gtest gtest_main gmock ${EXTERNAL_LIBS})

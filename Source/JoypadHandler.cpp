@@ -4,8 +4,10 @@
 
 using namespace std;
 
-JoypadHandler::JoypadHandler(ISystemController* p_systemController) :
+JoypadHandler::JoypadHandler(ISystemController* p_systemController,
+                             IConfigStore* p_configStore) :
   systemController(p_systemController),
+  configStore(p_configStore),
   chromeShortcuts(p_systemController)
 {
 	mouseSpeedX = 0;

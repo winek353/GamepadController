@@ -1,48 +1,51 @@
 #include <gtest/gtest.h>
-#include "SystemControllerMock.hpp"
-#include "JoypadHandler.hpp"
+#include "JoypadHandlerTestBase.hpp"
 
 
 using namespace testing;
 
-class DesktopSwitchingTests : public Test
+class DesktopSwitchingTests : public JoypadHandlerTestBase
 {
 public:
   DesktopSwitchingTests() :
-    sysConteollerMock(),
-    joypadHandler(&sysConteollerMock)
+      JoypadHandlerTestBase()
   {}
 
   void SetUp()
   {
-      EXPECT_CALL(sysConteollerMock, getApplicationOnTop()).WillRepeatedly(Return(std::string("plasma-desktop")));
+      EXPECT_CALL(sysControllerMock, getApplicationOnTop()).WillRepeatedly(Return(std::string("plasma-desktop")));
+      configStoreDefaultExpectations();
+  }
+
+  void configStoreDefaultExpectations()
+  {
+      EXPECT_CALL(configStoreMock, getReversedMouseSpeed()).WillRepeatedly(Return(2048));
+      EXPECT_CALL(configStoreMock, getMouseDeadZoneSize()).WillRepeatedly(Return(2048));
   }
 
   void expectSwitchToLeftDesktop();
   void expectSwitchToRightDesktop();
 protected:
-  StrictMock<SystemControllerMock> sysConteollerMock;
-  JoypadHandler joypadHandler;
 };
 
 void DesktopSwitchingTests::expectSwitchToLeftDesktop()
 {
-  EXPECT_CALL(sysConteollerMock, pressKey(30));
-  EXPECT_CALL(sysConteollerMock, pressKey(42));
-  EXPECT_CALL(sysConteollerMock, pressKey(56));
-  EXPECT_CALL(sysConteollerMock, releaseKey(30));
-  EXPECT_CALL(sysConteollerMock, releaseKey(42));
-  EXPECT_CALL(sysConteollerMock, releaseKey(56));
+  EXPECT_CALL(sysControllerMock, pressKey(30));
+  EXPECT_CALL(sysControllerMock, pressKey(42));
+  EXPECT_CALL(sysControllerMock, pressKey(56));
+  EXPECT_CALL(sysControllerMock, releaseKey(30));
+  EXPECT_CALL(sysControllerMock, releaseKey(42));
+  EXPECT_CALL(sysControllerMock, releaseKey(56));
 }
 
 void DesktopSwitchingTests::expectSwitchToRightDesktop()
 {
-  EXPECT_CALL(sysConteollerMock, pressKey(32));
-  EXPECT_CALL(sysConteollerMock, pressKey(42));
-  EXPECT_CALL(sysConteollerMock, pressKey(56));
-  EXPECT_CALL(sysConteollerMock, releaseKey(32));
-  EXPECT_CALL(sysConteollerMock, releaseKey(42));
-  EXPECT_CALL(sysConteollerMock, releaseKey(56));
+  EXPECT_CALL(sysControllerMock, pressKey(32));
+  EXPECT_CALL(sysControllerMock, pressKey(42));
+  EXPECT_CALL(sysControllerMock, pressKey(56));
+  EXPECT_CALL(sysControllerMock, releaseKey(32));
+  EXPECT_CALL(sysControllerMock, releaseKey(42));
+  EXPECT_CALL(sysControllerMock, releaseKey(56));
 }
 
 TEST_F(DesktopSwitchingTests, shouldSwitchDesktopToTheLeft_whenLeftAxisGoBelowThreshold)

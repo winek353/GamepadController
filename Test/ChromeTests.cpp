@@ -1,21 +1,22 @@
 #include <gtest/gtest.h>
-#include "SystemControllerMock.hpp"
-#include "JoypadHandler.hpp"
+#include "JoypadHandlerTestBase.hpp"
+
+
 
 using namespace testing;
 
-class ChromeTests : public Test
+class ChromeTests : public JoypadHandlerTestBase
 {
 public:
   ChromeTests() :
-    sysControllerMock(),
-    joypadHandler(&sysControllerMock)
+    JoypadHandlerTestBase()
   {}
 
   void SetUp()
   {
       EXPECT_CALL(sysControllerMock, getApplicationOnTop()).WillRepeatedly(Return(std::string("chrome")));
       ignoreMouseMovement();
+      configStoreDefaultExpectations();
   }
 
   void ignoreMouseMovement()
@@ -46,10 +47,6 @@ public:
       EXPECT_CALL(sysControllerMock, pressKey(keycode));
       EXPECT_CALL(sysControllerMock, releaseKey(keycode));
   }
-
-protected:
-  StrictMock<SystemControllerMock> sysControllerMock;
-  JoypadHandler joypadHandler;
 };
 
 TEST_F(ChromeTests, shouldOpenNewTab_whenAbuttonIsPressed)

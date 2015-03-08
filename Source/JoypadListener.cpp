@@ -1,5 +1,6 @@
 #include "JoypadListener.hpp"
 #include "SystemController.hpp"
+#include "ConfigStore.hpp"
 
 JoypadListener::JoypadListener()
 {
@@ -40,7 +41,8 @@ JoypadListener::JoypadListener()
     connect(joydevFileHandle, SIGNAL(activated(int)), this, SLOT(handleJoyEvents(int)));
     dev = joydev;
     
-    handler = new JoypadHandler(new SystemController);
+    handler = new JoypadHandler(new SystemController,
+                                new ConfigStore);
     
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timerCalled()));

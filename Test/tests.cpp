@@ -140,3 +140,27 @@ TEST_F(JoypadHandlerTestSuite, shouldNotClickMouse_whenSteamIsOnTop)
     joypadHandler.handleButton(BUTTON_RB, PRESSED);
     joypadHandler.handleButton(BUTTON_RB, RELEASED);
 }
+
+TEST_F(JoypadHandlerTestSuite, shouldMoveMouseFaster_whenMouseReversedSpeedIsLower)
+{
+    EXPECT_CALL(configStoreMock, getReversedMouseSpeed()).WillRepeatedly(Return(1024));
+    joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, 6*1024+2048);
+    EXPECT_CALL(sysControllerMock, moveMouse(0,6));
+    joypadHandler.handleTime();
+
+    joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, -10*1024-2048);
+    EXPECT_CALL(sysControllerMock, moveMouse(0,-5));
+    joypadHandler.handleTime();
+}
+
+TEST_F(JoypadHandlerTestSuite, shouldNotMoveMouse_whenAxisRightIsInIncreasedDeadZone)
+{
+    EXPECT_CALL(configStoreMock, getMouseDeadZoneSize()).WillRepeatedly(Return(5500));
+    joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, 5000);
+    EXPECT_CALL(sysControllerMock, moveMouse(0,0));
+    joypadHandler.handleTime();
+
+    joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, -5000);
+    EXPECT_CALL(sysControllerMock, moveMouse(0,0));
+    joypadHandler.handleTime();
+}

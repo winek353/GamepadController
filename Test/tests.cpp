@@ -149,7 +149,7 @@ TEST_F(JoypadHandlerTestSuite, shouldMoveMouseFaster_whenMouseReversedSpeedIsLow
     joypadHandler.handleTime();
 
     joypadHandler.handleAxis(AXIS_RIGHT_VERTICAL, -10*1024-2048);
-    EXPECT_CALL(sysControllerMock, moveMouse(0,-5));
+    EXPECT_CALL(sysControllerMock, moveMouse(0,-10));
     joypadHandler.handleTime();
 }
 

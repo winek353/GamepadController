@@ -1,6 +1,8 @@
 #include "JoypadHandler.hpp"
 #include <iostream>
 #include "Logger.hpp"
+#include "IConfigStore.hpp"
+
 
 using namespace std;
 
@@ -15,10 +17,12 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController,
 	flag = true;
     isLT_pressed = false;
 }
-int calculateMouseSpeed (int value)
+int calculateMouseSpeed (int value,IConfigStore* configStore  )
     {
-        if (value>= 2048) return (value-2048)/2048;
-        else if(value<=-2048) return (value+2048)/2048;
+        if (value >= configStore->getMouseDeadZoneSize())
+	  return (value - configStore->getMouseDeadZoneSize()) / configStore->getReversedMouseSpeed();
+        else if(value <= -configStore->getMouseDeadZoneSize())
+	  return (value + configStore->getMouseDeadZoneSize()) / configStore->getReversedMouseSpeed();
         else return 0;
     }
 bool isLT_belowThreshold (int value)
@@ -104,11 +108,11 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
 	    }
 	  if(axis==AXIS_RIGHT_HORIZONTAL)
 		{
-		mouseSpeedX = calculateMouseSpeed (value);
+		mouseSpeedX = calculateMouseSpeed (value, configStore);
 		}
 	  else if(axis == AXIS_RIGHT_VERTICAL)
 		{
-		mouseSpeedY = calculateMouseSpeed (value);
+		mouseSpeedY = calculateMouseSpeed (value, configStore);
 		}
 	
     }

@@ -25,6 +25,7 @@ do
         if [ $testResult -eq 0 ];
         then
             echo -e "\e[32m   PASSED   $testSuite$testName\e[0m"
+            rm -Rf TestResults/$currentTime/$testSuite$testName
         else
             echo -e "\e[31m   FAILED   $testSuite$testName\e[0m"
         fi

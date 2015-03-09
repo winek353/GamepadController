@@ -25,9 +25,9 @@ int calculateMouseSpeed (int value,IConfigStore* configStore  )
 	  return (value + configStore->getMouseDeadZoneSize()) / configStore->getReversedMouseSpeed();
         else return 0;
     }
-bool isLT_belowThreshold (int value)
+bool isLT_belowThreshold (int value, IConfigStore* configStore)
     {
-        if(value>=25000)
+        if(value>= configStore->getLtPressedThreshold())
         {
              return true;
         }
@@ -118,11 +118,12 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
     }
    if (axis ==AXIS_LT)
    {
-     isLT_pressed = isLT_belowThreshold (value);
+     isLT_pressed = isLT_belowThreshold (value, configStore);
    }
-   if ((axis ==AXIS_LEFT_HORIZONTAL)&&isLT_pressed)
+   if ((axis ==AXIS_LEFT_HORIZONTAL) && isLT_pressed)
 	{
-		if (value >(-25000)&&value<25000) flag =true; // isLeftHorizontalAxisInMiddle
+		if (value >(-25000)&&value<25000) 
+		  flag =true; // isLeftHorizontalAxisInMiddle
 		if ( (value<(-28000)&&flag)  ||  (value>28000&&flag))
 		{
 			LeftAxisHorizontalMovements (value, flag);

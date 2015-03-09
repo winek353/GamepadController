@@ -17,15 +17,8 @@ public:
       configStoreDefaultExpectations();
   }
 
-  void configStoreDefaultExpectations()
-  {
-      EXPECT_CALL(configStoreMock, getReversedMouseSpeed()).WillRepeatedly(Return(2048));
-      EXPECT_CALL(configStoreMock, getMouseDeadZoneSize()).WillRepeatedly(Return(2048));
-  }
-
   void expectSwitchToLeftDesktop();
   void expectSwitchToRightDesktop();
-protected:
 };
 
 void DesktopSwitchingTests::expectSwitchToLeftDesktop()

@@ -9,6 +9,7 @@ logsFile=TestResults/$currentTime/JoypadHandlerTest.out
 
 testSuite=""
 testName=""
+failedTestd=0
 
 while read line;
 do
@@ -24,12 +25,17 @@ do
 
         if [ $testResult -eq 0 ];
         then
-            echo -e "\e[32m   PASSED   $testSuite$testName\e[0m"
+            #echo -e "\e[32m   PASSED   $testSuite$testName\e[0m"
             rm -Rf TestResults/$currentTime/$testSuite$testName
         else
             echo -e "\e[31m   FAILED   $testSuite$testName\e[0m"
+            failedTestd=$(($failedTestd + 1))
         fi
 
     fi
 done < regressionList.txt
 rm -f regressionList.txt
+
+if [ "$failedTestd" == "0" ]; then
+  echo -e "\e[32m All tests passed - good job\e[0m"
+fi

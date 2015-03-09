@@ -18,6 +18,7 @@ public:
     {
         EXPECT_CALL(configStoreMock, getReversedMouseSpeed()).WillRepeatedly(Return(2048));
         EXPECT_CALL(configStoreMock, getMouseDeadZoneSize()).WillRepeatedly(Return(2048));
+	EXPECT_CALL(configStoreMock, getLtPressedThreshold()).WillRepeatedly(Return(25000));
     }
 
 protected:

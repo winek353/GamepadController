@@ -9,3 +9,8 @@ int ConfigStore::getMouseDeadZoneSize()
 {
     return 2048;
 }
+
+int ConfigStore::getLtPressedThreshold()
+{
+    return 25000;
+}

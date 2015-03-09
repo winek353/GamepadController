@@ -6,4 +6,5 @@ class ConfigStore : public IConfigStore
 public:
     virtual int getReversedMouseSpeed();
     virtual int getMouseDeadZoneSize();
+    virtual int getLtPressedThreshold();
 };

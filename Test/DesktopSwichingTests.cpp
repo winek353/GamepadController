@@ -114,3 +114,11 @@ TEST_F(DesktopSwitchingTests, shouldNotSwitchDesktop_whenAxisLtIsBelowThreshold)
     joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 28667);
     joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, -28667);
 }
+
+TEST_F(DesktopSwitchingTests, shouldNotSwitchDesktopToTheLeft_whenLtIsAboveChangedThreshold)
+{
+  EXPECT_CALL(configStoreMock, getLtPressedThreshold()).WillRepeatedly(Return(30000));
+  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 0);
+  joypadHandler.handleAxis(AXIS_LT, 27888);
+  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, -28667);
+}

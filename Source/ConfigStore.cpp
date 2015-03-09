@@ -14,3 +14,13 @@ int ConfigStore::getLtPressedThreshold()
 {
     return 25000;
 }
+
+int ConfigStore::getSwitchDesktopLowerThreshold()
+{
+    return 25000;
+}
+
+int ConfigStore::getSwitchDesktopHigherThreshold()
+{
+    return 28000;
+}

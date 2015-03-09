@@ -8,4 +8,6 @@ public:
     MOCK_METHOD0(getReversedMouseSpeed, int());
     MOCK_METHOD0(getMouseDeadZoneSize, int());
     MOCK_METHOD0(getLtPressedThreshold, int());
+    MOCK_METHOD0(getSwitchDesktopLowerThreshold, int());
+    MOCK_METHOD0(getSwitchDesktopHigherThreshold, int());
 };

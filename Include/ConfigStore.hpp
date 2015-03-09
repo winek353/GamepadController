@@ -7,4 +7,6 @@ public:
     virtual int getReversedMouseSpeed();
     virtual int getMouseDeadZoneSize();
     virtual int getLtPressedThreshold();
+    virtual int getSwitchDesktopLowerThreshold();
+    virtual int getSwitchDesktopHigherThreshold();
 };

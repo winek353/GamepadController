@@ -115,3 +115,25 @@ TEST_F(DesktopSwitchingTests, shouldNotSwitchDesktopToTheLeft_whenLtIsAboveChang
   joypadHandler.handleAxis(AXIS_LT, 27888);
   joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, -28667);
 }
+
+TEST_F(DesktopSwitchingTests, shouldNotSwitchDesktop_whenAxisLeftHorizontalIsAboveChangedHigherThreshold)
+{
+  EXPECT_CALL(configStoreMock, getSwitchDesktopHigherThreshold()).WillRepeatedly(Return(30000));
+  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 0);
+  joypadHandler.handleAxis(AXIS_LT, 27888);
+  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, -28667);
+}
+
+TEST_F(DesktopSwitchingTests, shouldAgainSwitchToDesktopToTheRight_ifLeftAxisGoBelowChangedLowerThreshold)
+{
+  EXPECT_CALL(configStoreMock, getSwitchDesktopLowerThreshold()).WillRepeatedly(Return(26000));
+  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 0);
+  joypadHandler.handleAxis(AXIS_LT, 27888);
+
+  expectSwitchToRightDesktop();
+  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 28667);
+  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 25667);
+
+  expectSwitchToRightDesktop();
+  joypadHandler.handleAxis(AXIS_LEFT_HORIZONTAL, 28650);
+}

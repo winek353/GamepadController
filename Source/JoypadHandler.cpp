@@ -122,9 +122,11 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
    }
    if ((axis ==AXIS_LEFT_HORIZONTAL) && isLT_pressed)
 	{
-		if (value >(-25000)&&value<25000) 
+		if (value >(-configStore->getSwitchDesktopLowerThreshold()) &&
+		  value<configStore->getSwitchDesktopLowerThreshold()) 
 		  flag =true; // isLeftHorizontalAxisInMiddle
-		if ( (value<(-28000)&&flag)  ||  (value>28000&&flag))
+		if ( (value<(-configStore->getSwitchDesktopHigherThreshold()) && flag)  ||
+		  (value>configStore->getSwitchDesktopHigherThreshold() && flag))
 		{
 			LeftAxisHorizontalMovements (value, flag);
 		}
@@ -146,7 +148,7 @@ void JoypadHandler::handleTime() // once a 1/20 s
 }
 void JoypadHandler::LeftAxisHorizontalMovements (int value, bool &flag)
 	{
-		if (value<(-28000))
+		if (value<(-configStore->getSwitchDesktopHigherThreshold()))
 		{
 			systemController->pressKey(42); // switchToDesktopToTheLeft
 			systemController->pressKey(56);
@@ -155,7 +157,7 @@ void JoypadHandler::LeftAxisHorizontalMovements (int value, bool &flag)
 			systemController->releaseKey(56);
 			systemController->releaseKey(42);
 		}
-        else if(value>28000)
+        else if(value>configStore->getSwitchDesktopHigherThreshold())
 		{
 			systemController->pressKey(42); //
 			systemController->pressKey(56);

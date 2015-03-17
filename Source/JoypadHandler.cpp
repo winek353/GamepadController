@@ -9,14 +9,17 @@ using namespace std;
 JoypadHandler::JoypadHandler(ISystemController* p_systemController,
                              IConfigStore* p_configStore) :
   systemController(p_systemController),
-  configStore(p_configStore),
-  chromeShortcuts(p_systemController)
+  configStore(p_configStore)
 {
 	mouseSpeedX = 0;
 	mouseSpeedY = 0;
 	flag = true;
     isLT_pressed = false;
+    
+    applicationShortcuts[0] = new DolphinShortcuts(p_systemController);
+    applicationShortcuts[1] = new ChromeShortcuts(p_systemController);
 }
+
 int calculateMouseSpeed (int value,IConfigStore* configStore  )
     {
         if (value >= configStore->getMouseDeadZoneSize())
@@ -25,6 +28,7 @@ int calculateMouseSpeed (int value,IConfigStore* configStore  )
 	  return (value + configStore->getMouseDeadZoneSize()) / configStore->getReversedMouseSpeed();
         else return 0;
     }
+
 bool isLT_belowThreshold (int value, IConfigStore* configStore)
     {
         if(value>= configStore->getLtPressedThreshold())
@@ -49,12 +53,23 @@ void JoypadHandler::pressCtrlPlusAltPlusKey(int key)
 void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased)
 {
   DEBUG << "Button " << button << " was " << pressedOrReleased;
-  if(systemController->getApplicationOnTop().compare("steam")!=0)
+if(systemController->getApplicationOnTop().compare("steam")!=0)
     {
-	    if(systemController->getApplicationOnTop().compare("chrome")==0)
-	    {
-		chromeShortcuts.chromeButtons(button, pressedOrReleased,isLT_pressed);
-	    }
+	string appOnTop = systemController->getApplicationOnTop();
+
+	for(int i=0;i<2;i++)
+	{
+	  if(appOnTop.compare(applicationShortcuts[i]->getApplication())==0)
+	  {
+	    applicationShortcuts[i]->handleButton(button, pressedOrReleased, isLT_pressed);
+	    break;
+	  }
+	}
+	    
+	    
+	    
+	    
+	    
 	    if(button==BUTTON_XBOX)
 	    {
 		if(pressedOrReleased == PRESSED)
@@ -101,11 +116,17 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
   DEBUG << "Axis " << axis << " value = " << value;
       if(systemController->getApplicationOnTop().compare("steam")!=0)
     {
-	    if(systemController->getApplicationOnTop().compare("chrome")==0)
-	    {
-		chromeShortcuts.chromeAxis( axis, value);
+      string appOnTop = systemController->getApplicationOnTop();
 
-	    }
+      for(int i=0;i<2;i++)
+      {
+	if(appOnTop.compare(applicationShortcuts[i]->getApplication())==0)
+	{
+	  applicationShortcuts[i]->handleAxis(axis, value);
+	  break;
+	}
+      }
+      
 	  if(axis==AXIS_RIGHT_HORIZONTAL)
 		{
 		mouseSpeedX = calculateMouseSpeed (value, configStore);
@@ -142,8 +163,16 @@ void JoypadHandler::handleTime() // once a 1/20 s
     if(systemController->getApplicationOnTop().compare("steam")!=0)
     {
 	      systemController->moveMouse(mouseSpeedX, mouseSpeedY);
-	  if(systemController->getApplicationOnTop().compare("chrome")==0)
-	      chromeShortcuts.handleTime();
+      string appOnTop = systemController->getApplicationOnTop();
+
+      for(int i=0;i<2;i++)
+      {
+	if(appOnTop.compare(applicationShortcuts[i]->getApplication())==0)
+	{
+	  applicationShortcuts[i]->handleTime();
+	  break;
+	}
+      }
     }
 }
 void JoypadHandler::LeftAxisHorizontalMovements (int value, bool &flag)

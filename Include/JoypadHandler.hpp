@@ -5,6 +5,7 @@
 #include "ISystemController.hpp"
 #include "IConfigStore.hpp"
 #include "ChromeShortcuts.hpp"
+#include "DolphinShortcuts.hpp"
 
 class JoypadHandler
 {
@@ -23,6 +24,7 @@ private:
   int mouseSpeedX, mouseSpeedY;
   ISystemController* systemController;
   IConfigStore* configStore;
-  ChromeShortcuts chromeShortcuts;
+  
+  IApplicationShortcuts* applicationShortcuts[2];
   
 };

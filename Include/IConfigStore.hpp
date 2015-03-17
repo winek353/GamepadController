@@ -8,4 +8,5 @@ public:
     virtual int getLtPressedThreshold() = 0;
     virtual int getSwitchDesktopLowerThreshold() = 0;
     virtual int getSwitchDesktopHigherThreshold() = 0;
+    virtual int getChromeReversedScroolingSpeed() = 0;
 };

@@ -190,3 +190,19 @@ TEST_F(ChromeTests, shouldOnlyTurnDownTheVolume_whenLTandA_isPressed)
     joypadHandler.handleAxis(AXIS_LT, 29000);
     joypadHandler.handleButton(BUTTON_A, PRESSED);
 }
+
+TEST_F(ChromeTests, shouldScroolScreenFaster_whenReversedScroolingSpeedIsLower)
+{
+    EXPECT_CALL(configStoreMock, getChromeReversedScroolingSpeed())
+      .WillRepeatedly(Return(64000));
+
+    joypadHandler.handleAxis(AXIS_LEFT_VERTICAL, 16000);
+
+    expectPressAndReleaseKey(108);
+    joypadHandler.handleTime();
+
+    for(int i=0;i<3;i++)
+        joypadHandler.handleTime();
+    expectPressAndReleaseKey(108);
+    joypadHandler.handleTime();
+}

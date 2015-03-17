@@ -3,14 +3,16 @@
 #include "JoypadButton.hpp"
 #include "PressedOrReleased.hpp"
 #include "JoypadAxis.hpp"
+#include "IApplicationShortcuts.hpp"
 
-class ChromeShortcuts
+class ChromeShortcuts : public IApplicationShortcuts
 {
 public:
     ChromeShortcuts(ISystemController*);
 
-    void chromeButtons(JoypadButton button, PressedOrReleased pressedOrReleased, bool isLT_belowThreshold);
-    void chromeAxis(JoypadAxis axis, int value);
+    string getApplication();
+    void handleButton(JoypadButton button, PressedOrReleased pressedOrReleased, bool isLT_belowThreshold);
+    void handleAxis(JoypadAxis axis, int value);
     void handleTime();
     void verMovements();
     void horMovements();

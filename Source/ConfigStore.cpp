@@ -24,3 +24,8 @@ int ConfigStore::getSwitchDesktopHigherThreshold()
 {
     return 28000;
 }
+
+int ConfigStore::getChromeReversedScroolingSpeed()
+{
+    return 128000;
+}

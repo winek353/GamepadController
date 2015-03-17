@@ -35,7 +35,7 @@ void ChromeShortcuts::updateArrowsPressingParams(int value, bool &moveOrNot, int
         moveOrNot=false;
 }
 
-void ChromeShortcuts::chromeButtons(JoypadButton button, PressedOrReleased pressedOrReleased, bool isLT_belowThreshold)
+void ChromeShortcuts::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased, bool isLT_belowThreshold)
 {
     if (isLT_belowThreshold==false)
     {
@@ -84,7 +84,7 @@ void ChromeShortcuts::chromeButtons(JoypadButton button, PressedOrReleased press
     }
 
 }
-void ChromeShortcuts::chromeAxis(JoypadAxis axis, int value)
+void ChromeShortcuts::handleAxis(JoypadAxis axis, int value)
 {
     if (axis==AXIS_LEFT_VERTICAL)
     {
@@ -139,4 +139,9 @@ void ChromeShortcuts::horMovements()
                             eventCounterHOR,
                             105,
                             106);
+}
+
+string ChromeShortcuts::getApplication()
+{
+  return "chrome";
 }

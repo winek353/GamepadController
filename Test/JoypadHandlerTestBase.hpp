@@ -24,6 +24,7 @@ public:
 	EXPECT_CALL(configStoreMock, getSwitchDesktopHigherThreshold()).WillRepeatedly(Return(28000));
 
 	EXPECT_CALL(configStoreMock, getChromeReversedScroolingSpeed()).WillRepeatedly(Return(28000));
+	EXPECT_CALL(configStoreMock, getDolphinReversedScroolSpeed()).WillRepeatedly(Return(128000));
     }
 
 protected:

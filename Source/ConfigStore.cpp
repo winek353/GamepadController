@@ -29,3 +29,8 @@ int ConfigStore::getChromeReversedScroolingSpeed()
 {
     return 128000;
 }
+
+int ConfigStore::getDolphinReversedScroolSpeed()
+{
+    return 128000;
+}

@@ -7,6 +7,8 @@
 #include "ChromeShortcuts.hpp"
 #include "DolphinShortcuts.hpp"
 
+const int applicationShortcutsSize = 3;
+
 class JoypadHandler
 {
 public:
@@ -25,6 +27,7 @@ private:
   ISystemController* systemController;
   IConfigStore* configStore;
   
-  IApplicationShortcuts* applicationShortcuts[2];
+  
+  IApplicationShortcuts* applicationShortcuts[applicationShortcutsSize];
   
 };

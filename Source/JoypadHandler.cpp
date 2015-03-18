@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Logger.hpp"
 #include "IConfigStore.hpp"
+#include "ClementineShortcuts.hpp"
 
 
 using namespace std;
@@ -18,6 +19,7 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController,
     
     applicationShortcuts[0] = new DolphinShortcuts(p_systemController);
     applicationShortcuts[1] = new ChromeShortcuts(p_systemController);
+    applicationShortcuts[2] = new ClementineShortcuts(p_systemController);
 }
 
 int calculateMouseSpeed (int value,IConfigStore* configStore  )
@@ -57,7 +59,7 @@ if(systemController->getApplicationOnTop().compare("steam")!=0)
     {
 	string appOnTop = systemController->getApplicationOnTop();
 
-	for(int i=0;i<2;i++)
+	for(int i=0;i<applicationShortcutsSize; i++)
 	{
 	  if(appOnTop.compare(applicationShortcuts[i]->getApplication())==0)
 	  {
@@ -118,7 +120,7 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
     {
       string appOnTop = systemController->getApplicationOnTop();
 
-      for(int i=0;i<2;i++)
+      for(int i=0;i<applicationShortcutsSize;i++)
       {
 	if(appOnTop.compare(applicationShortcuts[i]->getApplication())==0)
 	{
@@ -165,7 +167,7 @@ void JoypadHandler::handleTime() // once a 1/20 s
 	      systemController->moveMouse(mouseSpeedX, mouseSpeedY);
       string appOnTop = systemController->getApplicationOnTop();
 
-      for(int i=0;i<2;i++)
+      for(int i=0;i<applicationShortcutsSize;i++)
       {
 	if(appOnTop.compare(applicationShortcuts[i]->getApplication())==0)
 	{

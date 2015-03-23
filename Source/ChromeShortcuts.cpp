@@ -5,9 +5,10 @@ using namespace std;
 #include <cstdlib>
 
 
-ChromeShortcuts::ChromeShortcuts(ISystemController* systemController)
+ChromeShortcuts::ChromeShortcuts(ISystemController* systemController, IConfigStore* configStore)
 {
     this->systemController = systemController;
+    this->configStore = configStore;
     frequencyHOR=0;
     eventCounterHOR=100;
     moveOrNotHOR=false;
@@ -28,7 +29,7 @@ void ChromeShortcuts::updateArrowsPressingParams(int value, bool &moveOrNot, int
 {
    if (value>2000||value< -2000)
     {
-	      frequency=128000/value;
+	      frequency=configStore->getChromeReversedScroolingSpeed()/value;
 	      moveOrNot=true;
     }
     else

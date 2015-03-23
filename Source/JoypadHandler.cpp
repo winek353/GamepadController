@@ -18,7 +18,7 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController,
     isLT_pressed = false;
     
     applicationShortcuts[0] = new DolphinShortcuts(p_systemController);
-    applicationShortcuts[1] = new ChromeShortcuts(p_systemController);
+    applicationShortcuts[1] = new ChromeShortcuts(p_systemController, configStore);
     applicationShortcuts[2] = new ClementineShortcuts(p_systemController);
 }
 

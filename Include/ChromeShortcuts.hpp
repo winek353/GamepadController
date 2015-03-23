@@ -4,11 +4,12 @@
 #include "PressedOrReleased.hpp"
 #include "JoypadAxis.hpp"
 #include "IApplicationShortcuts.hpp"
+#include "IConfigStore.hpp"
 
 class ChromeShortcuts : public IApplicationShortcuts
 {
 public:
-    ChromeShortcuts(ISystemController*);
+    ChromeShortcuts(ISystemController*,IConfigStore*);
 
     string getApplication();
     void handleButton(JoypadButton button, PressedOrReleased pressedOrReleased, bool isLT_belowThreshold);
@@ -31,4 +32,5 @@ private:
                                  int &eventCounter,
                                  int keyNegativeFreq,
                                  int keyPositiveFreq);
+    IConfigStore* configStore;
 };

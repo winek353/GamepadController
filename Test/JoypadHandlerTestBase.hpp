@@ -30,6 +30,11 @@ public:
 	EXPECT_CALL(configStoreMock, getVlcMediumScroolThreshold()).WillRepeatedly(Return(13000));
 	EXPECT_CALL(configStoreMock, getVlcFastScroolThreshold()).WillRepeatedly(Return(25000));
     }
+    
+    void ignoreMouseMovement()
+    {
+	EXPECT_CALL(sysControllerMock, moveMouse(_,_)).Times(AnyNumber());
+    }
 
 protected:
     StrictMock<SystemControllerMock> sysControllerMock;

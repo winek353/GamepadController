@@ -19,11 +19,6 @@ public:
       configStoreDefaultExpectations();
   }
 
-  void ignoreMouseMovement()
-  {
-      EXPECT_CALL(sysControllerMock, moveMouse(_,_)).Times(AnyNumber());
-  }
-
   void expectCtrlPlusKey(int keycode)
   {
       EXPECT_CALL(sysControllerMock, pressKey(29));

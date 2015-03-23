@@ -34,3 +34,19 @@ int ConfigStore::getDolphinReversedScroolSpeed()
 {
     return 128000;
 }
+
+int ConfigStore::getVlcSlowScroolThreshold()
+{
+    return 6000;
+}
+
+
+int ConfigStore::getVlcMediumScroolThreshold()
+{
+    return 13000;
+}
+
+int ConfigStore::getVlcFastScroolThreshold()
+{
+    return 25000;
+}

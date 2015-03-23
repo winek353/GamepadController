@@ -11,4 +11,8 @@ public:
     virtual int getSwitchDesktopHigherThreshold();
     virtual int getChromeReversedScroolingSpeed();
     virtual int getDolphinReversedScroolSpeed();
+    
+    virtual int getVlcSlowScroolThreshold();
+    virtual int getVlcMediumScroolThreshold();
+    virtual int getVlcFastScroolThreshold();
 };

@@ -25,6 +25,10 @@ public:
 
 	EXPECT_CALL(configStoreMock, getChromeReversedScroolingSpeed()).WillRepeatedly(Return(128000));
 	EXPECT_CALL(configStoreMock, getDolphinReversedScroolSpeed()).WillRepeatedly(Return(128000));
+	
+	EXPECT_CALL(configStoreMock, getVlcSlowScroolThreshold()).WillRepeatedly(Return(6000));
+	EXPECT_CALL(configStoreMock, getVlcMediumScroolThreshold()).WillRepeatedly(Return(13000));
+	EXPECT_CALL(configStoreMock, getVlcFastScroolThreshold()).WillRepeatedly(Return(25000));
     }
 
 protected:

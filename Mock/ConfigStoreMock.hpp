@@ -12,4 +12,8 @@ public:
     MOCK_METHOD0(getSwitchDesktopHigherThreshold, int());
     MOCK_METHOD0(getChromeReversedScroolingSpeed, int());
     MOCK_METHOD0(getDolphinReversedScroolSpeed, int());
+    
+    MOCK_METHOD0(getVlcSlowScroolThreshold, int());
+    MOCK_METHOD0(getVlcMediumScroolThreshold, int());
+    MOCK_METHOD0(getVlcFastScroolThreshold, int());
 };

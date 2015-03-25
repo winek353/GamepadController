@@ -6,14 +6,18 @@
 #include "IConfigStore.hpp"
 #include "ChromeShortcuts.hpp"
 #include "DolphinShortcuts.hpp"
+#include "VlcShortcuts.hpp"
 
-const int applicationShortcutsSize = 3;
+
+const int applicationShortcutsSize = 4;
 
 class JoypadHandler
 {
 public:
   JoypadHandler(ISystemController*,
                 IConfigStore*);
+  ~JoypadHandler();
+
   void handleButton(JoypadButton, PressedOrReleased);
   void handleAxis(JoypadAxis, int);
   void handleTime();

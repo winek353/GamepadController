@@ -20,6 +20,13 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController,
     applicationShortcuts[0] = new DolphinShortcuts(p_systemController);
     applicationShortcuts[1] = new ChromeShortcuts(p_systemController, configStore);
     applicationShortcuts[2] = new ClementineShortcuts(p_systemController);
+    applicationShortcuts[3] = new VlcShortcuts(p_systemController, configStore);
+}
+
+JoypadHandler::~JoypadHandler()
+{
+  for(int i=0;i<applicationShortcutsSize;i++)
+    delete applicationShortcuts[i];
 }
 
 int calculateMouseSpeed (int value,IConfigStore* configStore  )

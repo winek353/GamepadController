@@ -9,8 +9,9 @@ using namespace std;
 
 JoypadHandler::JoypadHandler(ISystemController* p_systemController,
                              IConfigStore* p_configStore) :
-  systemController(p_systemController),
-  configStore(p_configStore)
+    systemController(p_systemController),
+    configStore(p_configStore),
+    keyPresser(*p_systemController)
 {
 	mouseSpeedX = 0;
 	mouseSpeedY = 0;
@@ -18,7 +19,7 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController,
     isLT_pressed = false;
     
     applicationShortcuts[0] = new DolphinShortcuts(p_systemController);
-    applicationShortcuts[1] = new ChromeShortcuts(p_systemController, configStore);
+    applicationShortcuts[1] = new ChromeShortcuts(p_systemController, configStore, keyPresser);
     applicationShortcuts[2] = new ClementineShortcuts(p_systemController);
     applicationShortcuts[3] = new VlcShortcuts(p_systemController, configStore);
 }

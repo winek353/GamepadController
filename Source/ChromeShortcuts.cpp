@@ -1,28 +1,22 @@
 #include "ChromeShortcuts.hpp"
+#include "IKeyPresser.hpp"
 #include <iostream>
 using namespace std;
 #include "Logger.hpp"
 #include <cstdlib>
 
 
-ChromeShortcuts::ChromeShortcuts(ISystemController* systemController, IConfigStore* configStore)
+ChromeShortcuts::ChromeShortcuts(ISystemController* systemController,
+                                 IConfigStore* configStore,
+                                 IKeyPresser& keyPresser) :
+    ApplicationShortcutsBase(systemController, configStore, keyPresser)
 {
-    this->systemController = systemController;
-    this->configStore = configStore;
     frequencyHOR=0;
     eventCounterHOR=100;
     moveOrNotHOR=false;
     frequencyVER=0;
     eventCounterVER=100;
     moveOrNotVER=false;
-}
-
-void ChromeShortcuts::pressCtrlPlusKey(int key)
-{
-    systemController->pressKey(29);
-    systemController->pressKey(key);
-    systemController->releaseKey(key);
-    systemController->releaseKey(29);
 }
 
 void ChromeShortcuts::updateArrowsPressingParams(int value, bool &moveOrNot, int &frequency)
@@ -40,50 +34,49 @@ void ChromeShortcuts::handleButton(JoypadButton button, PressedOrReleased presse
 {
     if (isLT_belowThreshold==false)
     {
-	  if(button == BUTTON_A)
-	  {
+        if(button == BUTTON_A)
+        {
+            if(pressedOrReleased == PRESSED)
+	    {
+		keyPresser.pressCtrlPlusKey(20);
+	    }
+        }
+        if(button == BUTTON_B)
+        {
 	    if(pressedOrReleased == PRESSED)
 	    {
-		pressCtrlPlusKey(20);
+                keyPresser.pressCtrlPlusKey(17);
 	    }
-	  }
-	  if(button == BUTTON_B)
-	  {
-	    if(pressedOrReleased == PRESSED)
-	    {
-		  pressCtrlPlusKey(17);
-	    }
-	  }
+        }
     }
     if(button == BUTTON_LEFT)
     {
-      if(pressedOrReleased == PRESSED)
-      {
-          pressCtrlPlusKey(104);
-      }
+          if(pressedOrReleased == PRESSED)
+          {
+              keyPresser.pressCtrlPlusKey(104);
+          }
     }
     if(button == BUTTON_RIGHT)
     {
-      if(pressedOrReleased == PRESSED)
-      {
-          pressCtrlPlusKey(109);
-       }
+        if(pressedOrReleased == PRESSED)
+        {
+            keyPresser.pressCtrlPlusKey(109);
+        }
     }
     if(button == BUTTON_UP)
     {
-      if(pressedOrReleased == PRESSED)
-      {
-          pressCtrlPlusKey(13);
-      }
+        if(pressedOrReleased == PRESSED)
+        {
+            keyPresser.pressCtrlPlusKey(13);
+        }
     }
     if(button == BUTTON_DOWN)
     {
-      if(pressedOrReleased == PRESSED)
-      {
-          pressCtrlPlusKey(12);
-      }
+        if(pressedOrReleased == PRESSED)
+        {
+            keyPresser.pressCtrlPlusKey(12);
+        }
     }
-
 }
 void ChromeShortcuts::handleAxis(JoypadAxis axis, int value)
 {
@@ -110,15 +103,13 @@ void ChromeShortcuts::pressConditionalyArrows(bool moveOrNot,
 {
         if (frequency<0 && moveOrNot && eventCounter >= -frequency)
         {
-            systemController->pressKey(keyNegativeFreq);
-            systemController->releaseKey(keyNegativeFreq);
+            keyPresser.pressAndReleaseKey(keyNegativeFreq);
             eventCounter=0;
         }
         else if(frequency>0 && moveOrNot && eventCounter>= frequency)
         {
-             systemController->pressKey(keyPositiveFreq);
-             systemController->releaseKey(keyPositiveFreq);
-             eventCounter=0;
+            keyPresser.pressAndReleaseKey(keyPositiveFreq);
+            eventCounter=0;
         }
     eventCounter++;   
 }

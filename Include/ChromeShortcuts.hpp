@@ -3,13 +3,15 @@
 #include "JoypadButton.hpp"
 #include "PressedOrReleased.hpp"
 #include "JoypadAxis.hpp"
-#include "IApplicationShortcuts.hpp"
 #include "IConfigStore.hpp"
+#include "ApplicationShortcutsBase.hpp"
 
-class ChromeShortcuts : public IApplicationShortcuts
+class ChromeShortcuts : public ApplicationShortcutsBase
 {
 public:
-    ChromeShortcuts(ISystemController*,IConfigStore*);
+    ChromeShortcuts(ISystemController*,
+                    IConfigStore*,
+                    IKeyPresser&);
 
     string getApplication();
     void handleButton(JoypadButton button, PressedOrReleased pressedOrReleased, bool isLT_belowThreshold);
@@ -18,19 +20,16 @@ public:
     void verMovements();
     void horMovements();
 private:
-    ISystemController* systemController;
     int  frequencyHOR;
     int eventCounterHOR;
     bool moveOrNotHOR;
     int  frequencyVER;
     int eventCounterVER;
     bool moveOrNotVER;
-    void pressCtrlPlusKey(int);
     void updateArrowsPressingParams(int value, bool &moveOrNot, int &frequency);
     void pressConditionalyArrows(bool moveOrNot,
                                  int frequency,
                                  int &eventCounter,
                                  int keyNegativeFreq,
                                  int keyPositiveFreq);
-    IConfigStore* configStore;
 };

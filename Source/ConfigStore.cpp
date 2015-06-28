@@ -7,7 +7,7 @@ int ConfigStore::getReversedMouseSpeed()
 
 int ConfigStore::getMouseDeadZoneSize()
 {
-    return 2048;
+    return 3000;
 }
 
 int ConfigStore::getLtPressedThreshold()

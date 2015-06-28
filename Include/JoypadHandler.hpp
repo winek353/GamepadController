@@ -7,6 +7,7 @@
 #include "ChromeShortcuts.hpp"
 #include "DolphinShortcuts.hpp"
 #include "VlcShortcuts.hpp"
+#include "KeyPresser.hpp"
 
 
 const int applicationShortcutsSize = 4;
@@ -30,6 +31,7 @@ private:
   int mouseSpeedX, mouseSpeedY;
   ISystemController* systemController;
   IConfigStore* configStore;
+  KeyPresser keyPresser;
   
   
   IApplicationShortcuts* applicationShortcuts[applicationShortcutsSize];

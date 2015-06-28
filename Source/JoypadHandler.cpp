@@ -11,10 +11,9 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController,
                              IConfigStore* p_configStore) :
     systemController(p_systemController),
     configStore(p_configStore),
+    mouseMover(*p_systemController, *p_configStore),
     keyPresser(*p_systemController)
 {
-	mouseSpeedX = 0;
-	mouseSpeedY = 0;
 	flag = true;
     isLT_pressed = false;
     
@@ -29,15 +28,6 @@ JoypadHandler::~JoypadHandler()
   for(int i=0;i<applicationShortcutsSize;i++)
     delete applicationShortcuts[i];
 }
-
-int calculateMouseSpeed (int value,IConfigStore* configStore  )
-    {
-        if (value >= configStore->getMouseDeadZoneSize())
-	  return (value - configStore->getMouseDeadZoneSize()) / configStore->getReversedMouseSpeed();
-        else if(value <= -configStore->getMouseDeadZoneSize())
-	  return (value + configStore->getMouseDeadZoneSize()) / configStore->getReversedMouseSpeed();
-        else return 0;
-    }
 
 bool isLT_belowThreshold (int value, IConfigStore* configStore)
     {
@@ -74,11 +64,7 @@ if(systemController->getApplicationOnTop().compare("steam")!=0)
 	    applicationShortcuts[i]->handleButton(button, pressedOrReleased, isLT_pressed);
 	    break;
 	  }
-	}
-	    
-	    
-	    
-	    
+	}  
 	    
 	    if(button==BUTTON_XBOX)
 	    {
@@ -117,8 +103,6 @@ if(systemController->getApplicationOnTop().compare("steam")!=0)
   {
       pressCtrlPlusAltPlusKey(16);
   }
-  
-  // Here implement handling of button events ;)
 }
 
 void JoypadHandler::handleAxis(JoypadAxis axis, int value)
@@ -137,34 +121,30 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
 	}
       }
       
-	  if(axis==AXIS_RIGHT_HORIZONTAL)
-		{
-		mouseSpeedX = calculateMouseSpeed (value, configStore);
-		}
-	  else if(axis == AXIS_RIGHT_VERTICAL)
-		{
-		mouseSpeedY = calculateMouseSpeed (value, configStore);
-		}
-	
-    }
+          if(axis==AXIS_RIGHT_HORIZONTAL)
+          {
+              mouseMover.changeXAxisValues(value);
+          }
+          else if(axis == AXIS_RIGHT_VERTICAL)
+          {
+              mouseMover.changeYAxisValues(value);
+          }
+      }
    if (axis ==AXIS_LT)
    {
-     isLT_pressed = isLT_belowThreshold (value, configStore);
+       isLT_pressed = isLT_belowThreshold (value, configStore);
    }
    if ((axis ==AXIS_LEFT_HORIZONTAL) && isLT_pressed)
-	{
-		if (value >(-configStore->getSwitchDesktopLowerThreshold()) &&
-		  value<configStore->getSwitchDesktopLowerThreshold()) 
-		  flag =true; // isLeftHorizontalAxisInMiddle
-		if ( (value<(-configStore->getSwitchDesktopHigherThreshold()) && flag)  ||
-		  (value>configStore->getSwitchDesktopHigherThreshold() && flag))
-		{
-			LeftAxisHorizontalMovements (value, flag);
-		}
-		
-	}
-	
-
+   {
+       if (value >(-configStore->getSwitchDesktopLowerThreshold()) &&
+           value<configStore->getSwitchDesktopLowerThreshold()) 
+           flag =true; // isLeftHorizontalAxisInMiddle
+       if ( (value<(-configStore->getSwitchDesktopHigherThreshold()) && flag)  ||
+            (value>configStore->getSwitchDesktopHigherThreshold() && flag))
+       {
+           LeftAxisHorizontalMovements (value, flag);
+       }	
+   }
 }
 
 void JoypadHandler::handleTime() // once a 1/20 s
@@ -172,7 +152,7 @@ void JoypadHandler::handleTime() // once a 1/20 s
     DEBUG << "handleTime was called";
     if(systemController->getApplicationOnTop().compare("steam")!=0)
     {
-	      systemController->moveMouse(mouseSpeedX, mouseSpeedY);
+        mouseMover.moveMouse();
       string appOnTop = systemController->getApplicationOnTop();
 
       for(int i=0;i<applicationShortcutsSize;i++)

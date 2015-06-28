@@ -8,6 +8,7 @@
 #include "DolphinShortcuts.hpp"
 #include "VlcShortcuts.hpp"
 #include "KeyPresser.hpp"
+#include "MouseMover.hpp"
 
 
 const int applicationShortcutsSize = 4;
@@ -31,6 +32,8 @@ private:
   int mouseSpeedX, mouseSpeedY;
   ISystemController* systemController;
   IConfigStore* configStore;
+
+  MouseMover mouseMover;
   KeyPresser keyPresser;
   
   

@@ -1,4 +1,5 @@
 #include "KeyPresser.hpp"
+#include "Logger.hpp"
 
 KeyPresser::KeyPresser(ISystemController& p_sysController) :
     sysController(p_sysController)
@@ -7,9 +8,11 @@ KeyPresser::KeyPresser(ISystemController& p_sysController) :
 
 void KeyPresser::pressKey(int keyCode)
 {
+    DEBUG << "press key: " << keyCode;
     if (not isKeyInRange(keyCode))
         return;
 
+    DEBUG << "press key: " << keyCode;
     sysController.pressKey(keyCode);
     isKeyPressed[keyCode] = true;
 }
@@ -24,6 +27,7 @@ void KeyPresser::releaseKey(int keyCode)
     if (not isKeyInRange(keyCode))
         return;
 
+    DEBUG << "release key: " << keyCode;
     sysController.releaseKey(keyCode);
     isKeyPressed[keyCode] = false;
 }

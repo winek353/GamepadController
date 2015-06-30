@@ -7,7 +7,7 @@ using namespace std;
 VlcShortcuts::VlcShortcuts(ISystemController* systemController,
                            IConfigStore* p_configStore,
                            IKeyPresser& p_keyPresser) :
-    ApplicationShortcutsBase(systemController, configStore, keyPresser)
+    ApplicationShortcutsBase(systemController, configStore, p_keyPresser)
 {
     configStore=p_configStore;
     lastScroolingInterval = DEAD_ZONE;
@@ -56,9 +56,12 @@ void VlcShortcuts::intervalCases(ScroolingInterval last, ScroolingInterval curre
 	keyPresser.pressKey(56);
 	keyPresser.pressKey(106);
 	break;
-      case SLOW_FORWARD:
+    case SLOW_FORWARD:
+        DEBUG << "AAA " << &keyPresser;
 	keyPresser.pressKey(42);
+        DEBUG << "BBB";
 	keyPresser.pressKey(106);
+        DEBUG << "CCC";
 	break;
       case SLOW_BACKWARD:
 	keyPresser.pressKey(42);
@@ -128,9 +131,12 @@ ScroolingInterval VlcShortcuts::getScroolingInterval(int value)
 
 void VlcShortcuts::handleAxis(JoypadAxis axis, int value)
 {
-  ScroolingInterval currentInterval = getScroolingInterval(value);
-  intervalCases(lastScroolingInterval, currentInterval);
-  lastScroolingInterval = currentInterval;
+    if (axis == AXIS_LEFT_HORIZONTAL )
+    {
+        ScroolingInterval currentInterval = getScroolingInterval(value);
+        intervalCases(lastScroolingInterval, currentInterval);
+        lastScroolingInterval = currentInterval;
+    }
 }
 
 void VlcShortcuts::handleTime()

@@ -31,6 +31,5 @@ public:
   ScroolingInterval getScroolingInterval(int value);
 private:
     ScroolingInterval lastScroolingInterval;
-    //ISystemController* systemController;
      IConfigStore* configStore;
 };

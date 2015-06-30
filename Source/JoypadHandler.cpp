@@ -140,7 +140,6 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
 
 void JoypadHandler::handleTime() // once a 1/20 s
 {
-    DEBUG << "handleTime was called";
     if(systemController->getApplicationOnTop().compare("steam")!=0)
     {
         mouseMover.moveMouse();

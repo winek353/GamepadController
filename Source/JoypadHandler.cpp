@@ -20,7 +20,7 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController,
     applicationShortcuts[0] = new DolphinShortcuts(p_systemController);
     applicationShortcuts[1] = new ChromeShortcuts(p_systemController, configStore, keyPresser);
     applicationShortcuts[2] = new ClementineShortcuts(p_systemController);
-    applicationShortcuts[3] = new VlcShortcuts(p_systemController, configStore);
+    applicationShortcuts[3] = new VlcShortcuts(p_systemController, configStore, keyPresser);
 }
 
 JoypadHandler::~JoypadHandler()

@@ -3,8 +3,9 @@
 #include "JoypadButton.hpp"
 #include "PressedOrReleased.hpp"
 #include "JoypadAxis.hpp"
-#include "IApplicationShortcuts.hpp"
+#include "ApplicationShortcutsBase.hpp"
 #include "IConfigStore.hpp"
+#include "IKeyPresser.hpp"
 
 enum ScroolingInterval
 {
@@ -16,10 +17,11 @@ enum ScroolingInterval
   MEDIUM_BACKWARD,
   FAST_BACKWARD
 };
-class VlcShortcuts : public IApplicationShortcuts
+
+class VlcShortcuts : public ApplicationShortcutsBase
 {
 public:
-  VlcShortcuts(ISystemController*, IConfigStore*);
+  VlcShortcuts(ISystemController*, IConfigStore*, IKeyPresser&);
   
   string getApplication();
   void handleButton(JoypadButton, PressedOrReleased, bool);
@@ -29,6 +31,6 @@ public:
   ScroolingInterval getScroolingInterval(int value);
 private:
     ScroolingInterval lastScroolingInterval;
-    ISystemController* systemController;
+    //ISystemController* systemController;
      IConfigStore* configStore;
 };

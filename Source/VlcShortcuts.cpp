@@ -4,9 +4,11 @@ using namespace std;
 #include "Logger.hpp"
 #include <cstdlib>
 
-VlcShortcuts::VlcShortcuts(ISystemController* systemController, IConfigStore* p_configStore)
+VlcShortcuts::VlcShortcuts(ISystemController* systemController,
+                           IConfigStore* p_configStore,
+                           IKeyPresser& p_keyPresser) :
+    ApplicationShortcutsBase(systemController, configStore, keyPresser)
 {
-    this->systemController = systemController;
     configStore=p_configStore;
     lastScroolingInterval = DEAD_ZONE;
 }
@@ -19,56 +21,56 @@ void VlcShortcuts::intervalCases(ScroolingInterval last, ScroolingInterval curre
     switch(last)
     {
       case FAST_FORWARD:
-	systemController->releaseKey(29);
-	systemController->releaseKey(106);
+	keyPresser.releaseKey(29);
+	keyPresser.releaseKey(106);
 	break;
       case MEDIUM_FORWARD:
-	systemController->releaseKey(56);
-	systemController->releaseKey(106);
+	keyPresser.releaseKey(56);
+	keyPresser.releaseKey(106);
 	break;
       case SLOW_FORWARD:
-	systemController->releaseKey(42);
-	systemController->releaseKey(106);
+	keyPresser.releaseKey(42);
+	keyPresser.releaseKey(106);
 	break;
       case SLOW_BACKWARD:
-	systemController->releaseKey(42);
-	systemController->releaseKey(105);
+	keyPresser.releaseKey(42);
+	keyPresser.releaseKey(105);
 	break;
       case MEDIUM_BACKWARD:
-	systemController->releaseKey(56);
-	systemController->releaseKey(105);
+	keyPresser.releaseKey(56);
+	keyPresser.releaseKey(105);
 	break;
       case FAST_BACKWARD:
-	systemController->releaseKey(29);
-	systemController->releaseKey(105);
+	keyPresser.releaseKey(29);
+	keyPresser.releaseKey(105);
 	break;
     }
     
     switch(current)
     {
       case FAST_FORWARD:
-	systemController->pressKey(29);
-	systemController->pressKey(106);
+	keyPresser.pressKey(29);
+	keyPresser.pressKey(106);
 	break;
       case MEDIUM_FORWARD:
-	systemController->pressKey(56);
-	systemController->pressKey(106);
+	keyPresser.pressKey(56);
+	keyPresser.pressKey(106);
 	break;
       case SLOW_FORWARD:
-	systemController->pressKey(42);
-	systemController->pressKey(106);
+	keyPresser.pressKey(42);
+	keyPresser.pressKey(106);
 	break;
       case SLOW_BACKWARD:
-	systemController->pressKey(42);
-	systemController->pressKey(105);
+	keyPresser.pressKey(42);
+	keyPresser.pressKey(105);
 	break;
       case MEDIUM_BACKWARD:
-	systemController->pressKey(56);
-	systemController->pressKey(105);
+	keyPresser.pressKey(56);
+	keyPresser.pressKey(105);
 	break;
       case FAST_BACKWARD:
-	systemController->pressKey(29);
-	systemController->pressKey(105);
+	keyPresser.pressKey(29);
+	keyPresser.pressKey(105);
 	break;
     }
   }
@@ -76,30 +78,27 @@ void VlcShortcuts::intervalCases(ScroolingInterval last, ScroolingInterval curre
 
 void VlcShortcuts::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased, bool isLT_belowThreshold)
 {
-  if (button == BUTTON_X)
-  {
-    if(pressedOrReleased == PRESSED)	
+    if (button == BUTTON_X)
     {
-      systemController->pressKey(57);	
-      systemController->releaseKey(57);
+        if(pressedOrReleased == PRESSED)	
+        {
+            keyPresser.pressAndReleaseKey(57);	
+        }
     }
-  }
-  if (button == BUTTON_B)
-  {
-    if(pressedOrReleased == PRESSED)
+    else if (button == BUTTON_B)
     {
-      systemController->pressKey(31);
-      systemController->releaseKey(31);
+        if(pressedOrReleased == PRESSED)
+        {
+            keyPresser.pressAndReleaseKey(31);
+        }
     }
-  }
-  if (button == BUTTON_START)
-  {
-    if(pressedOrReleased == PRESSED)	
+    else if (button == BUTTON_START)
     {
-      systemController->pressKey(33);	
-      systemController->releaseKey(33);
+        if(pressedOrReleased == PRESSED)	
+        {
+            keyPresser.pressAndReleaseKey(33);	
+        }
     }
-  }
 }
   
 

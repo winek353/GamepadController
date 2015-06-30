@@ -10,6 +10,7 @@ public:
     void releaseKey(int keyCode);
     void pressCtrlPlusKey(int keyCode);
     void pressAndReleaseKey(int keyCode);
+    void pressCtrlPlusAltPlusKey(int key);
     void releaseAll();
 private:
     static const int maxKeyNumber = 256;

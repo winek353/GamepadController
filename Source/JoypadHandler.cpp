@@ -40,15 +40,6 @@ bool isLT_belowThreshold (int value, IConfigStore* configStore)
             return false;
         }
     }
-void JoypadHandler::pressCtrlPlusAltPlusKey(int key)
-{
-    systemController->pressKey(29);
-    systemController->pressKey(56);
-    systemController->pressKey(key);
-    systemController->releaseKey(key);
-    systemController->releaseKey(56);
-    systemController->releaseKey(29);
-}
 
 void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased)
 {
@@ -87,22 +78,22 @@ if(systemController->getApplicationOnTop().compare("steam")!=0)
 			  systemController->unclickMouse(3);
 	    }
     }
-  if (button == BUTTON_X && isLT_pressed && pressedOrReleased == PRESSED)
-  {
-	pressCtrlPlusAltPlusKey(17);
-  }
-  if (button == BUTTON_B && isLT_pressed && pressedOrReleased == PRESSED)
-  {
-	pressCtrlPlusAltPlusKey(31);
-  }
-  if  (button == BUTTON_Y && isLT_pressed && pressedOrReleased == PRESSED)
-  {
-      pressCtrlPlusAltPlusKey(18);
-  }
+    if (button == BUTTON_X && isLT_pressed && pressedOrReleased == PRESSED)
+    {
+	keyPresser.pressCtrlPlusAltPlusKey(17);
+    }
+    if (button == BUTTON_B && isLT_pressed && pressedOrReleased == PRESSED)
+    {
+	keyPresser.pressCtrlPlusAltPlusKey(31);
+    }
+    if  (button == BUTTON_Y && isLT_pressed && pressedOrReleased == PRESSED)
+    {
+        keyPresser.pressCtrlPlusAltPlusKey(18);
+    }
     if (button == BUTTON_A && isLT_pressed && pressedOrReleased == PRESSED)
-  {
-      pressCtrlPlusAltPlusKey(16);
-  }
+    {
+        keyPresser.pressCtrlPlusAltPlusKey(16);
+    }
 }
 
 void JoypadHandler::handleAxis(JoypadAxis axis, int value)

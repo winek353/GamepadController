@@ -25,7 +25,6 @@ public:
   void handleTime();
 
 private:
-  void pressCtrlPlusAltPlusKey(int key);
   bool isLT_pressed;
   bool flag;
   void LeftAxisHorizontalMovements (int value, bool &flag);

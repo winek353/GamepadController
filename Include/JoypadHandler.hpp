@@ -9,6 +9,7 @@
 #include "VlcShortcuts.hpp"
 #include "KeyPresser.hpp"
 #include "MouseMover.hpp"
+#include "DesktopSwitcher.hpp"
 
 
 const int applicationShortcutsSize = 4;
@@ -26,14 +27,13 @@ public:
 
 private:
   bool isLT_pressed;
-  bool flag;
-  void LeftAxisHorizontalMovements (int value, bool &flag);
   int mouseSpeedX, mouseSpeedY;
   ISystemController* systemController;
   IConfigStore* configStore;
 
   MouseMover mouseMover;
   KeyPresser keyPresser;
+  DesktopSwitcher desktopSwitcher;
   
   
   IApplicationShortcuts* applicationShortcuts[applicationShortcutsSize];

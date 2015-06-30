@@ -12,9 +12,9 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController,
     systemController(p_systemController),
     configStore(p_configStore),
     mouseMover(*p_systemController, *p_configStore),
-    keyPresser(*p_systemController)
+    keyPresser(*p_systemController),
+    desktopSwitcher(keyPresser, *p_configStore)
 {
-	flag = true;
     isLT_pressed = false;
     
     applicationShortcuts[0] = new DolphinShortcuts(p_systemController);
@@ -125,17 +125,7 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
    {
        isLT_pressed = isLT_belowThreshold (value, configStore);
    }
-   if ((axis ==AXIS_LEFT_HORIZONTAL) && isLT_pressed)
-   {
-       if (value >(-configStore->getSwitchDesktopLowerThreshold()) &&
-           value<configStore->getSwitchDesktopLowerThreshold()) 
-           flag =true; // isLeftHorizontalAxisInMiddle
-       if ( (value<(-configStore->getSwitchDesktopHigherThreshold()) && flag)  ||
-            (value>configStore->getSwitchDesktopHigherThreshold() && flag))
-       {
-           LeftAxisHorizontalMovements (value, flag);
-       }	
-   }
+   desktopSwitcher.handleAxis(axis, value, isLT_pressed);
 }
 
 void JoypadHandler::handleTime() // once a 1/20 s
@@ -155,25 +145,4 @@ void JoypadHandler::handleTime() // once a 1/20 s
       }
     }
 }
-void JoypadHandler::LeftAxisHorizontalMovements (int value, bool &flag)
-	{
-		if (value<(-configStore->getSwitchDesktopHigherThreshold()))
-		{
-			systemController->pressKey(42); // switchToDesktopToTheLeft
-			systemController->pressKey(56);
-			systemController->pressKey(30);
-			systemController->releaseKey(30);
-			systemController->releaseKey(56);
-			systemController->releaseKey(42);
-		}
-        else if(value>configStore->getSwitchDesktopHigherThreshold())
-		{
-			systemController->pressKey(42); //
-			systemController->pressKey(56);
-			systemController->pressKey(32);
-			systemController->releaseKey(32);
-			systemController->releaseKey(56);
-			systemController->releaseKey(42);
-		}
-		flag=false;
-	}
+

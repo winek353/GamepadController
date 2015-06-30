@@ -30,6 +30,11 @@ int ConfigStore::getChromeReversedScroolingSpeed()
     return 128000;
 }
 
+int ConfigStore::getChromeScroolingDeadZone()
+{
+    return 4000;
+}
+
 int ConfigStore::getDolphinReversedScroolSpeed()
 {
     return 128000;

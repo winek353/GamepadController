@@ -21,10 +21,11 @@ ChromeShortcuts::ChromeShortcuts(ISystemController* systemController,
 
 void ChromeShortcuts::updateArrowsPressingParams(int value, bool &moveOrNot, int &frequency)
 {
-   if (value>2000||value< -2000)
+    int scroolingDeadZone = configStore->getChromeScroolingDeadZone();
+    if (value>scroolingDeadZone||value< -scroolingDeadZone)
     {
-	      frequency=configStore->getChromeReversedScroolingSpeed()/value;
-	      moveOrNot=true;
+        frequency=configStore->getChromeReversedScroolingSpeed()/value;
+        moveOrNot=true;
     }
     else
         moveOrNot=false;

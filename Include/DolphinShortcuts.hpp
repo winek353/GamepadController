@@ -12,7 +12,7 @@ public:
   
   string getApplication();
   void handleButton(JoypadButton, PressedOrReleased, bool);
-  void handleAxis(JoypadAxis, int);
+  void handleAxis(JoypadAxis, int, bool isLT_belowThreshold);
   void handleTime();
 private:
     ISystemController* systemController;

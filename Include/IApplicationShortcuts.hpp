@@ -10,6 +10,6 @@ class IApplicationShortcuts
 public:
   virtual string getApplication() = 0;
   virtual void handleButton(JoypadButton, PressedOrReleased, bool) = 0;
-  virtual void handleAxis(JoypadAxis, int) = 0;
+  virtual void handleAxis(JoypadAxis, int, bool) = 0;
   virtual void handleTime() = 0;
 };

@@ -25,7 +25,7 @@ public:
   
   string getApplication();
   void handleButton(JoypadButton, PressedOrReleased, bool);
-  void handleAxis(JoypadAxis, int);
+  void handleAxis(JoypadAxis, int, bool isLT_belowThreshold);
   void handleTime();
   void intervalCases(ScroolingInterval last, ScroolingInterval current);
   ScroolingInterval getScroolingInterval(int value);

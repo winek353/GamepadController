@@ -11,11 +11,12 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController,
                              IConfigStore* p_configStore) :
     systemController(p_systemController),
     configStore(p_configStore),
-    mouseMover(*p_systemController, *p_configStore),
+    mouseMover(*p_systemController, *p_configStore, buttonsAndAxisStateKeeper),
     keyPresser(*p_systemController),
     desktopSwitcher(keyPresser, *p_configStore)
 {
     isLT_pressed = false;
+    isRT_pressed = false;
     
     applicationShortcuts[0] = new DolphinShortcuts(p_systemController);
     applicationShortcuts[1] = new ChromeShortcuts(p_systemController, configStore, keyPresser);
@@ -29,7 +30,7 @@ JoypadHandler::~JoypadHandler()
     delete applicationShortcuts[i];
 }
 
-bool isLT_belowThreshold (int value, IConfigStore* configStore)
+bool isRLT_belowThreshold (int value, IConfigStore* configStore)
     {
         if(value>= configStore->getLtPressedThreshold())
         {
@@ -43,8 +44,12 @@ bool isLT_belowThreshold (int value, IConfigStore* configStore)
 
 void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased)
 {
-  DEBUG << "Button " << button << " was " << pressedOrReleased;
-if(systemController->getApplicationOnTop().compare("steam")!=0)
+    DEBUG << "Button " << button << " was " << pressedOrReleased;
+    
+    if(not inactivityFilter.shouldHandleButton(button))
+        return;
+    
+    if(systemController->getApplicationOnTop().compare("steam")!=0)
     {
 	string appOnTop = systemController->getApplicationOnTop();
 
@@ -98,7 +103,28 @@ if(systemController->getApplicationOnTop().compare("steam")!=0)
 
 void JoypadHandler::handleAxis(JoypadAxis axis, int value)
 {
-  DEBUG << "Axis " << axis << " value = " << value;
+    DEBUG << "Axis " << axis << " value = " << value;
+    
+    buttonsAndAxisStateKeeper.setAxisState(axis,value);
+
+    if(not inactivityFilter.shouldHandleAxis(axis))
+        return;
+    if (axis ==AXIS_LT)
+   {
+       isLT_pressed = isRLT_belowThreshold (value, configStore);
+   }
+   else if(axis == AXIS_RT)
+   {
+       isRT_pressed = isRLT_belowThreshold (value, configStore);
+   }
+   
+    if(isLT_pressed)
+    {
+        desktopSwitcher.handleAxis(axis, value, isLT_pressed, isRT_pressed);
+        return;
+    }
+    
+    
       if(systemController->getApplicationOnTop().compare("steam")!=0)
     {
       string appOnTop = systemController->getApplicationOnTop();
@@ -107,7 +133,7 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
       {
 	if(appOnTop.compare(applicationShortcuts[i]->getApplication())==0)
 	{
-	  applicationShortcuts[i]->handleAxis(axis, value);
+	  applicationShortcuts[i]->handleAxis(axis, value, isLT_pressed);
 	  break;
 	}
       }
@@ -120,16 +146,14 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
           {
               mouseMover.changeYAxisValues(value);
           }
-      }
-   if (axis ==AXIS_LT)
-   {
-       isLT_pressed = isLT_belowThreshold (value, configStore);
-   }
-   desktopSwitcher.handleAxis(axis, value, isLT_pressed);
+    }
+   
 }
 
 void JoypadHandler::handleTime() // once a 1/20 s
 {
+    inactivityFilter.handleTime();
+
     if(systemController->getApplicationOnTop().compare("steam")!=0)
     {
         mouseMover.moveMouse();

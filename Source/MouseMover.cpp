@@ -1,16 +1,22 @@
 #include "MouseMover.hpp"
 
 MouseMover::MouseMover(ISystemController& p_sysController,
-                       IConfigStore& p_configStore) :
+                       IConfigStore& p_configStore,
+                       ButtonsAndAxisStateKeeper& p_stateKeeper) :
     sysController(p_sysController),
-    configStore(p_configStore)
+    configStore(p_configStore),
+    stateKeeper(p_stateKeeper)
 {
     speedX = speedY = 0;
+    
+    moveX = moveX = 0;
 }
 
 void MouseMover::moveMouse()
 {
     sysController.moveMouse(speedX,speedY);
+    
+    
 }
 
 void MouseMover::changeXAxisValues(int axisValue)

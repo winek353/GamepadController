@@ -25,6 +25,17 @@ void DesktopSwitcher::switchToTheLeft()
     isReadyForNextSwitch=false;
 }
 
+void DesktopSwitcher::switchToTheLeftWithWindow()
+{
+    keyPresser.pressKey(42);
+    keyPresser.pressKey(56);
+    keyPresser.pressAndReleaseKey(16);
+    keyPresser.releaseKey(56);
+    keyPresser.releaseKey(42);
+
+    isReadyForNextSwitch=false;
+}
+
 void DesktopSwitcher::switchToTheRight()
 {
     keyPresser.pressKey(42);
@@ -36,7 +47,21 @@ void DesktopSwitcher::switchToTheRight()
     isReadyForNextSwitch=false;
 }
 
-void DesktopSwitcher::handleAxis(JoypadAxis axis, int value, bool isLT_pressed)
+void DesktopSwitcher::switchToTheRightWithWindow()
+{
+    keyPresser.pressKey(42);
+    keyPresser.pressKey(56);
+    keyPresser.pressAndReleaseKey(18);
+    keyPresser.releaseKey(56);
+    keyPresser.releaseKey(42);
+
+    isReadyForNextSwitch=false;
+}
+
+void DesktopSwitcher::handleAxis(JoypadAxis axis,
+                                 int value,
+                                 bool isLT_pressed,
+                                 bool isRT_pressed)
 {
     if (!isLT_pressed)
         return;
@@ -51,8 +76,19 @@ void DesktopSwitcher::handleAxis(JoypadAxis axis, int value, bool isLT_pressed)
         return;
 
     if (value < (-configStore.getSwitchDesktopHigherThreshold()))
-        switchToTheLeft();
+    {
+        if(isRT_pressed)
+            switchToTheLeftWithWindow();
+        else
+            switchToTheLeft();
+        
+    }
     else if(value>configStore.getSwitchDesktopHigherThreshold())
-        switchToTheRight();
+    {
+        if(isRT_pressed)
+            switchToTheRightWithWindow();
+        else
+            switchToTheRight();
+    }
 }
 

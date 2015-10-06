@@ -48,7 +48,7 @@ void ClementineShortcuts::handleButton(JoypadButton button, PressedOrReleased pr
     }
   }
 }
-void ClementineShortcuts::handleAxis(JoypadAxis, int)
+void ClementineShortcuts::handleAxis(JoypadAxis, int, bool isLT_belowThreshold)
 {
   
 }

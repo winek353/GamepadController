@@ -7,9 +7,11 @@ class DesktopSwitcher
 {
 public:
     DesktopSwitcher(IKeyPresser&,IConfigStore&);
-    void handleAxis(JoypadAxis, int, bool);
+    void handleAxis(JoypadAxis, int, bool, bool);
     void switchToTheLeft();
     void switchToTheRight();
+    void switchToTheLeftWithWindow();
+    void switchToTheRightWithWindow();
     bool isAxisInMiddleZone(int);
 private:
     IKeyPresser& keyPresser;

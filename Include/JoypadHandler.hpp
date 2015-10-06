@@ -10,6 +10,8 @@
 #include "KeyPresser.hpp"
 #include "MouseMover.hpp"
 #include "DesktopSwitcher.hpp"
+#include "InactivityFilter.hpp"
+#include "ButtonsAndAxisStateKeeper.hpp"
 
 
 const int applicationShortcutsSize = 4;
@@ -26,7 +28,7 @@ public:
   void handleTime();
 
 private:
-  bool isLT_pressed;
+  bool isLT_pressed, isRT_pressed;
   int mouseSpeedX, mouseSpeedY;
   ISystemController* systemController;
   IConfigStore* configStore;
@@ -34,6 +36,8 @@ private:
   MouseMover mouseMover;
   KeyPresser keyPresser;
   DesktopSwitcher desktopSwitcher;
+  InactivityFilter inactivityFilter;
+  ButtonsAndAxisStateKeeper buttonsAndAxisStateKeeper;
   
   
   IApplicationShortcuts* applicationShortcuts[applicationShortcutsSize];

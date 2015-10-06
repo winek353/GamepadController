@@ -60,7 +60,7 @@ string DolphinShortcuts::getApplication()
   return "dolphin";
 }
 
-void DolphinShortcuts::handleAxis(JoypadAxis, int)
+void DolphinShortcuts::handleAxis(JoypadAxis, int, bool isLT_belowThreshold)
 {
   
 }

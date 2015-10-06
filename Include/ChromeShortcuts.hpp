@@ -15,7 +15,7 @@ public:
 
     string getApplication();
     void handleButton(JoypadButton button, PressedOrReleased pressedOrReleased, bool isLT_belowThreshold);
-    void handleAxis(JoypadAxis axis, int value);
+    void handleAxis(JoypadAxis axis, int value, bool isLT_belowThreshold);
     void handleTime();
     void verMovements();
     void horMovements();

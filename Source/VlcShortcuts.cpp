@@ -129,8 +129,11 @@ ScroolingInterval VlcShortcuts::getScroolingInterval(int value)
   return DEAD_ZONE;
 }
 
-void VlcShortcuts::handleAxis(JoypadAxis axis, int value)
+void VlcShortcuts::handleAxis(JoypadAxis axis, int value, bool isLT_belowThreshold)
 {
+    if(isLT_belowThreshold)
+        return;
+
     if (axis == AXIS_LEFT_HORIZONTAL )
     {
         ScroolingInterval currentInterval = getScroolingInterval(value);

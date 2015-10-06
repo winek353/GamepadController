@@ -11,7 +11,7 @@ class ClementineShortcuts : public IApplicationShortcuts
   ClementineShortcuts(ISystemController* systemController);
   virtual string getApplication();
   virtual void handleButton(JoypadButton, PressedOrReleased, bool);
-  virtual void handleAxis(JoypadAxis, int);
+  virtual void handleAxis(JoypadAxis, int, bool isLT_belowThreshold);
   virtual void handleTime();
 private:
    ISystemController* systemController;

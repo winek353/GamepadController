@@ -3,7 +3,7 @@
 #include "Logger.hpp"
 #include "IConfigStore.hpp"
 #include "ClementineShortcuts.hpp"
-
+#include "KtorrentShortcuts.hpp"
 
 using namespace std;
 
@@ -22,6 +22,7 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController,
     applicationShortcuts[1] = new ChromeShortcuts(p_systemController, configStore, keyPresser);
     applicationShortcuts[2] = new ClementineShortcuts(p_systemController);
     applicationShortcuts[3] = new VlcShortcuts(p_systemController, configStore, keyPresser);
+    applicationShortcuts[4] = new KtorrentShortcuts(p_systemController, configStore, keyPresser);
 }
 
 JoypadHandler::~JoypadHandler()

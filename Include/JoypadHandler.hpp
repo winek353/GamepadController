@@ -14,7 +14,7 @@
 #include "ButtonsAndAxisStateKeeper.hpp"
 
 
-const int applicationShortcutsSize = 4;
+const int applicationShortcutsSize = 5;
 
 class JoypadHandler
 {

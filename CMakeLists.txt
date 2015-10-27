@@ -29,7 +29,9 @@ add_executable(JoypadHandlerTest ${GeneratedSources}
                                   Source/DolphinShortcuts.cpp
                                   Source/ClementineShortcuts.cpp
                                   Source/VlcShortcuts.cpp
+                                  Source/KtorrentShortcuts.cpp
                                   Source/InactivityFilter.cpp
+                                  Source/ArrowsToArrowsPresser.cpp
                                   Source/ButtonsAndAxisStateKeeper.cpp)
 
 set(EXTERNAL_LIBS -pthread -lXtst -lQtGui -lQtCore -lpthread -lX11)

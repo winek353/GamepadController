@@ -6,6 +6,7 @@ ApplicationShortcutsBase::ApplicationShortcutsBase(ISystemController* p_sysContr
                                                    IKeyPresser& p_keyPresser) :
     sysController(p_sysController),
     configStore(p_configStore),
-    keyPresser(p_keyPresser)
+    keyPresser(p_keyPresser),
+    arrowsToArrowsPresser(p_keyPresser)
 {
 }

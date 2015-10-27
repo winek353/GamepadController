@@ -1,6 +1,7 @@
 #pragma once
 #include "IApplicationShortcuts.hpp"
 #include "ArrowsToArrowsPresser.hpp"
+#include "MouseScrooler.hpp"
 
 class ISystemController;
 class IConfigStore;
@@ -17,4 +18,5 @@ protected:
     IConfigStore* configStore;
     IKeyPresser& keyPresser;
     ArrowsToArrowsPresser arrowsToArrowsPresser;
+    MouseScrooler mouseScrooler;
 };

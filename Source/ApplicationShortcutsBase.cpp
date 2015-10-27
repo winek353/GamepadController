@@ -7,6 +7,7 @@ ApplicationShortcutsBase::ApplicationShortcutsBase(ISystemController* p_sysContr
     sysController(p_sysController),
     configStore(p_configStore),
     keyPresser(p_keyPresser),
-    arrowsToArrowsPresser(p_keyPresser)
+    arrowsToArrowsPresser(p_keyPresser),
+    mouseScrooler(*configStore, *p_sysController)
 {
 }

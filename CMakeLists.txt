@@ -32,6 +32,7 @@ add_executable(JoypadHandlerTest ${GeneratedSources}
                                   Source/KtorrentShortcuts.cpp
                                   Source/InactivityFilter.cpp
                                   Source/ArrowsToArrowsPresser.cpp
+                                  Source/MouseScrooler.cpp
                                   Source/ButtonsAndAxisStateKeeper.cpp)
 
 set(EXTERNAL_LIBS -pthread -lXtst -lQtGui -lQtCore -lpthread -lX11)

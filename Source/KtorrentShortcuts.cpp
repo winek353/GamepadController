@@ -39,8 +39,11 @@ void KtorrentShortcuts::handleButton(JoypadButton button, PressedOrReleased pres
 
 void KtorrentShortcuts::handleAxis(JoypadAxis axis, int value, bool isLT_belowThreshold)
 {
+  if (axis==AXIS_LEFT_VERTICAL)
+      mouseScrooler.setAxisValue(value);
 }
 
 void KtorrentShortcuts::handleTime()
 {
+  mouseScrooler.handleTime();
 }

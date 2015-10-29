@@ -2,6 +2,7 @@
 #include "IApplicationShortcuts.hpp"
 #include "ArrowsToArrowsPresser.hpp"
 #include "MouseScrooler.hpp"
+#include "PreciseMouseMover.hpp"
 
 class ISystemController;
 class IConfigStore;
@@ -19,4 +20,5 @@ protected:
     IKeyPresser& keyPresser;
     ArrowsToArrowsPresser arrowsToArrowsPresser;
     MouseScrooler mouseScrooler;
+    PreciseMouseMover preciseMouseMover;
 };

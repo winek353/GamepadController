@@ -13,7 +13,8 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController,
     configStore(p_configStore),
     mouseMover(*p_systemController, *p_configStore, buttonsAndAxisStateKeeper),
     keyPresser(*p_systemController),
-    desktopSwitcher(keyPresser, *p_configStore)
+    desktopSwitcher(keyPresser, *p_configStore),
+    preciseMouseMover(*p_systemController, *p_configStore)
 {
     isLT_pressed = false;
     isRT_pressed = false;
@@ -117,6 +118,8 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
    else if(axis == AXIS_RT)
    {
        isRT_pressed = isRLT_belowThreshold (value, configStore);
+
+       preciseMouseMover.changeSlowDown(value);
    }
    
     if(isLT_pressed)
@@ -142,10 +145,12 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
           if(axis==AXIS_RIGHT_HORIZONTAL)
           {
               mouseMover.changeXAxisValues(value);
+              preciseMouseMover.changeXAxisValues(value);
           }
           else if(axis == AXIS_RIGHT_VERTICAL)
           {
               mouseMover.changeYAxisValues(value);
+              preciseMouseMover.changeYAxisValues(value);
           }
     }
    
@@ -157,7 +162,8 @@ void JoypadHandler::handleTime() // once a 1/20 s
 
     if(systemController->getApplicationOnTop().compare("steam")!=0)
     {
-        mouseMover.moveMouse();
+//        mouseMover.moveMouse();
+        preciseMouseMover.handleTime();
       string appOnTop = systemController->getApplicationOnTop();
 
       for(int i=0;i<applicationShortcutsSize;i++)

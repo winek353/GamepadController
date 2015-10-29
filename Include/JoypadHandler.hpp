@@ -12,7 +12,7 @@
 #include "DesktopSwitcher.hpp"
 #include "InactivityFilter.hpp"
 #include "ButtonsAndAxisStateKeeper.hpp"
-
+#include "PreciseMouseMover.hpp"
 
 const int applicationShortcutsSize = 5;
 
@@ -34,6 +34,7 @@ private:
   IConfigStore* configStore;
 
   MouseMover mouseMover;
+  PreciseMouseMover preciseMouseMover;
   KeyPresser keyPresser;
   DesktopSwitcher desktopSwitcher;
   InactivityFilter inactivityFilter;

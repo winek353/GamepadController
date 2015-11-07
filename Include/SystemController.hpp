@@ -2,11 +2,12 @@
 #include <string>
 #include <X11/extensions/XTest.h>
 #include "ISystemController.hpp"
+#include "IProcessesNamesSaver.hpp"
 
 class SystemController : public ISystemController
 {
 public:
-  SystemController();
+  SystemController(IProcessesNamesSaver&);
   void pressKey(int);
   void releaseKey(int);
   void moveMouse(int, int);
@@ -16,5 +17,6 @@ public:
   std::string getApplicationOnTop();
   
 private:
-  Display* display;
+    Display* display;
+    IProcessesNamesSaver& processesNamesSaver;
 };

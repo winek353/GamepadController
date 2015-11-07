@@ -7,7 +7,8 @@
 #include <ctime>
 
 
-SystemController::SystemController()
+SystemController::SystemController(IProcessesNamesSaver& p_processesNamesSaver) :
+    processesNamesSaver(p_processesNamesSaver)
 {
   display = QX11Info::display();
 }
@@ -66,8 +67,21 @@ std::string SystemController::getApplicationOnTop()
     if(timeNow - lastTimeCalled > CLOCKS_PER_SEC/50)
     {
         std::string command = "cat /proc/$(xdotool getwindowpid $(xdotool getwindowfocus))/comm";
-        lastTimeCalled = std::clock();
+        
         appOnTop = getCmdOutput(command);
+
+	processesNamesSaver.addProcessName(appOnTop);
+
+	static int timesCalled = 0;
+	if(timesCalled > 100)
+	{
+	    timesCalled = 0;
+	    processesNamesSaver.saveProcesses();
+	}
+    else
+        timesCalled++;
+
+	lastTimeCalled = std::clock();
     }
 
     return appOnTop;

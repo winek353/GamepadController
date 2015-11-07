@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 2.6)
 project( GamepadController )
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 include_directories("${PROJECT_BINARY_DIR}/Include"
                     "${PROJECT_BINARY_DIR}/Mock"
 					"/usr/share/qt4/mkspecs/linux-g++-64"
@@ -34,7 +36,8 @@ add_executable(JoypadHandlerTest ${GeneratedSources}
                                   Source/ArrowsToArrowsPresser.cpp
                                   Source/MouseScrooler.cpp
 				  Source/PreciseMouseMover.cpp
-                                  Source/ButtonsAndAxisStateKeeper.cpp)
+                                  Source/ButtonsAndAxisStateKeeper.cpp
+                                  Source/ProcessesNamesSaver.cpp)
 
 set(EXTERNAL_LIBS -pthread -lXtst -lQtGui -lQtCore -lpthread -lX11)
 target_link_libraries (JoypadHandlerTest gtest gtest_main gmock ${EXTERNAL_LIBS})

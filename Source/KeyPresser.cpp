@@ -59,6 +59,13 @@ void KeyPresser::pressCtrlPlusKey(int keyCode)
     releaseKey(29);
 }
 
+void KeyPresser::pressAltPlusKey(int keyCode)
+{
+    pressKey(56);
+    pressAndReleaseKey(keyCode);
+    releaseKey(56);
+}
+
 void KeyPresser::pressCtrlPlusAltPlusKey(int key)
 {
     sysController.pressKey(29);

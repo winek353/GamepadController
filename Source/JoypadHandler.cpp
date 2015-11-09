@@ -88,9 +88,9 @@ void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedO
     {
 	keyPresser.pressCtrlPlusAltPlusKey(17);
     }
-    if (button == BUTTON_B && isLT_pressed && pressedOrReleased == PRESSED)
+    if (button == BUTTON_B && isLT_pressed && isRT_pressed && pressedOrReleased == PRESSED)
     {
-	keyPresser.pressCtrlPlusAltPlusKey(31);
+        keyPresser.pressAltPlusKey(62);
     }
     if  (button == BUTTON_Y && isLT_pressed && pressedOrReleased == PRESSED)
     {

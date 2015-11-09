@@ -8,6 +8,7 @@ public:
     KeyPresser(ISystemController&);
     void pressKey(int keyCode);
     void releaseKey(int keyCode);
+    void pressAltPlusKey(int keyCode);
     void pressCtrlPlusKey(int keyCode);
     void pressAndReleaseKey(int keyCode);
     void pressCtrlPlusAltPlusKey(int key);

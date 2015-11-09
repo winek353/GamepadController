@@ -50,10 +50,10 @@ void JoypadHandler::handleButton(JoypadButton button, PressedOrReleased pressedO
     
     if(not inactivityFilter.shouldHandleButton(button))
         return;
-    
-    if(systemController->getApplicationOnTop().compare("steam")!=0)
+    string appOnTop = systemController->getApplicationOnTop();
+
+    if(steamGamesFilter.shouldHandleEvent(appOnTop))
     {
-	string appOnTop = systemController->getApplicationOnTop();
 
 	for(int i=0;i<applicationShortcutsSize; i++)
 	{

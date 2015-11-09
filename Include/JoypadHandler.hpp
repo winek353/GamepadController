@@ -13,6 +13,7 @@
 #include "InactivityFilter.hpp"
 #include "ButtonsAndAxisStateKeeper.hpp"
 #include "PreciseMouseMover.hpp"
+#include "SteamGamesFilter.hpp"
 
 const int applicationShortcutsSize = 5;
 
@@ -38,6 +39,7 @@ private:
   KeyPresser keyPresser;
   DesktopSwitcher desktopSwitcher;
   InactivityFilter inactivityFilter;
+  SteamGamesFilter steamGamesFilter;
   ButtonsAndAxisStateKeeper buttonsAndAxisStateKeeper;
   
   

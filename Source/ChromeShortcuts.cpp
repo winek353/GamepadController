@@ -73,5 +73,5 @@ void ChromeShortcuts::handleTime() // once a 1/20 s
 
 string ChromeShortcuts::getApplication()
 {
-  return "chrome";
+    return "chrome";
 }

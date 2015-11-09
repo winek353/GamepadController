@@ -127,12 +127,11 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
         desktopSwitcher.handleAxis(axis, value, isLT_pressed, isRT_pressed);
         return;
     }
-    
-    
-      if(systemController->getApplicationOnTop().compare("steam")!=0)
-    {
-      string appOnTop = systemController->getApplicationOnTop();
 
+    string appOnTop = systemController->getApplicationOnTop();
+
+    if(steamGamesFilter.shouldHandleEvent(appOnTop))
+    {      
       for(int i=0;i<applicationShortcutsSize;i++)
       {
 	if(appOnTop.compare(applicationShortcuts[i]->getApplication())==0)
@@ -160,9 +159,10 @@ void JoypadHandler::handleTime() // once a 1/20 s
 {
     inactivityFilter.handleTime();
 
-    if(systemController->getApplicationOnTop().compare("steam")!=0)
+    string appOnTop = systemController->getApplicationOnTop();
+
+    if(steamGamesFilter.shouldHandleEvent(appOnTop))
     {
-//        mouseMover.moveMouse();
         preciseMouseMover.handleTime();
       string appOnTop = systemController->getApplicationOnTop();
 

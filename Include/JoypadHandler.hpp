@@ -34,7 +34,6 @@ private:
   ISystemController* systemController;
   IConfigStore* configStore;
 
-  MouseMover mouseMover;
   PreciseMouseMover preciseMouseMover;
   KeyPresser keyPresser;
   DesktopSwitcher desktopSwitcher;

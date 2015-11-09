@@ -11,7 +11,6 @@ JoypadHandler::JoypadHandler(ISystemController* p_systemController,
                              IConfigStore* p_configStore) :
     systemController(p_systemController),
     configStore(p_configStore),
-    mouseMover(*p_systemController, *p_configStore, buttonsAndAxisStateKeeper),
     keyPresser(*p_systemController),
     desktopSwitcher(keyPresser, *p_configStore),
     preciseMouseMover(*p_systemController, *p_configStore)
@@ -143,12 +142,10 @@ void JoypadHandler::handleAxis(JoypadAxis axis, int value)
       
           if(axis==AXIS_RIGHT_HORIZONTAL)
           {
-              mouseMover.changeXAxisValues(value);
               preciseMouseMover.changeXAxisValues(value);
           }
           else if(axis == AXIS_RIGHT_VERTICAL)
           {
-              mouseMover.changeYAxisValues(value);
               preciseMouseMover.changeYAxisValues(value);
           }
     }
@@ -164,16 +161,15 @@ void JoypadHandler::handleTime() // once a 1/20 s
     if(steamGamesFilter.shouldHandleEvent(appOnTop))
     {
         preciseMouseMover.handleTime();
-      string appOnTop = systemController->getApplicationOnTop();
 
-      for(int i=0;i<applicationShortcutsSize;i++)
-      {
-	if(appOnTop.compare(applicationShortcuts[i]->getApplication())==0)
-	{
-	  applicationShortcuts[i]->handleTime();
-	  break;
-	}
-      }
+        for(int i=0;i<applicationShortcutsSize;i++)
+        {
+	        if(appOnTop.compare(applicationShortcuts[i]->getApplication())==0)
+	        {
+	            applicationShortcuts[i]->handleTime();
+	            break;
+	        }
+        }
     }
 }
 

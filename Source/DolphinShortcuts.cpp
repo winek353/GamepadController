@@ -13,20 +13,20 @@ DolphinShortcuts::DolphinShortcuts(ISystemController* systemController,
 
 void DolphinShortcuts::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased, bool isLT_belowThreshold)
 {
-  if(pressedOrReleased != PRESSED)
-    return;
-
-  switch(button)
+  if(pressedOrReleased == PRESSED)
   {
-    case BUTTON_A:
-      keyPresser.pressAndReleaseKey(28);
-      break;
-    case BUTTON_B:
-      keyPresser.pressAndReleaseKey(14);
-      break;
+      switch(button)
+      {
+        case BUTTON_A:
+          keyPresser.pressAndReleaseKey(28);
+          break;
+        case BUTTON_B:
+          keyPresser.pressAndReleaseKey(14);
+          break;
+      }
   }
 
-  arrowsToArrowsPresser.pressArrow(button);
+  arrowsToArrowsPresser.pressArrow(button, pressedOrReleased);
 }
 
 string DolphinShortcuts::getApplication()

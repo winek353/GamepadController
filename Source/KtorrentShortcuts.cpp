@@ -16,25 +16,26 @@ string KtorrentShortcuts::getApplication()
 
 void KtorrentShortcuts::handleButton(JoypadButton button, PressedOrReleased pressedOrReleased, bool isLT_belowThreshold)
 {
-  if(pressedOrReleased != PRESSED)
-    return;
-
-  switch(button)
+  if(pressedOrReleased == PRESSED)
   {
-    case BUTTON_B:
-      keyPresser.pressAndReleaseKey(83);
-      break;
-    case BUTTON_A:
-      keyPresser.pressCtrlPlusKey(31);
-      break;
-    case BUTTON_X:
-      keyPresser.pressCtrlPlusKey(37);
-      break;
-    case BUTTON_Y:
-      keyPresser.pressCtrlPlusKey(35);
-      break;
+      switch(button)
+      {
+        case BUTTON_B:
+          keyPresser.pressAndReleaseKey(83);
+          break;
+        case BUTTON_A:
+          keyPresser.pressCtrlPlusKey(31);
+          break;
+        case BUTTON_X:
+          keyPresser.pressCtrlPlusKey(37);
+          break;
+        case BUTTON_Y:
+          keyPresser.pressCtrlPlusKey(35);
+          break;
+      }
   }
-  arrowsToArrowsPresser.pressArrow(button);
+
+  arrowsToArrowsPresser.pressArrow(button, pressedOrReleased);
 }
 
 void KtorrentShortcuts::handleAxis(JoypadAxis axis, int value, bool isLT_belowThreshold)

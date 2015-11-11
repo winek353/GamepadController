@@ -38,7 +38,8 @@ add_executable(JoypadHandlerTest ${GeneratedSources}
                 				  Source/PreciseMouseMover.cpp
                                   Source/ButtonsAndAxisStateKeeper.cpp
                                   Source/ProcessesNamesSaver.cpp
-                                  Source/SteamGamesFilter.cpp)
+                                  Source/SteamGamesFilter.cpp
+                                  Source/WormsShortcuts.cpp)
 
 set(EXTERNAL_LIBS -pthread -lXtst -lQtGui -lQtCore -lpthread -lX11)
 target_link_libraries (JoypadHandlerTest gtest gtest_main gmock ${EXTERNAL_LIBS})
